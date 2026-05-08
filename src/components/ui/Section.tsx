@@ -12,8 +12,8 @@ export default function Section({ children, className, id, dark = true }: Sectio
     <section
       id={id}
       className={cn(
-        'py-20 md:py-28',
-        dark ? 'bg-[#0A0E14]' : 'bg-[#F8F7F4]',
+        'relative overflow-hidden py-20 md:py-28',
+        dark ? 'bg-black text-white' : 'bg-offwhite text-ink',
         className
       )}
     >

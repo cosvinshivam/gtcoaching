@@ -3,136 +3,33 @@ import Container from '@/components/ui/Container'
 import Section from '@/components/ui/Section'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 
-interface Block {
+interface Pillar {
   number: string
   title: string
-  description: string
-  bullets: string[]
-  imageRight: boolean
-  accent: string
+  body: string
+  image: string
 }
 
-const blocks: Block[] = [
+const pillars: Pillar[] = [
   {
     number: '01',
-    title: 'Executive Identity & Presence',
-    description:
-      'Most leadership gaps aren\'t skill gaps — they\'re identity gaps. We rebuild how you see yourself as a leader from the inside out, so your presence changes before you say a word.',
-    bullets: [
-      'Reframe your leadership identity to match the level you\'re moving to',
-      'Develop the internal authority that external titles cannot give',
-      'Eliminate approval-seeking, hedging, and the performance of confidence',
-    ],
-    imageRight: false,
-    accent: '#4ADE80',
+    title: 'The Audit',
+    body: 'A surgical analysis of your training, nutrition, sleep, and metabolic markers. We map the gaps in your current high-performance life.',
+    image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80&auto=format&fit=crop',
   },
   {
     number: '02',
-    title: 'Strategic Thinking & Decision Architecture',
-    description:
-      'Senior leaders are not paid to execute — they are paid to think. We elevate how you frame problems, allocate attention, and make decisions under uncertainty.',
-    bullets: [
-      'Shift from reactive problem-solver to proactive strategic architect',
-      'Build mental models that help you see around corners',
-      'Make high-stakes decisions faster and with less second-guessing',
-    ],
-    imageRight: true,
-    accent: '#4ADE80',
+    title: 'Precision Systems',
+    body: 'Nutrition and training protocols designed to survive 14-hour flights and back-to-back board meetings. Zero guesswork.',
+    image: 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800&q=80&auto=format&fit=crop',
   },
   {
     number: '03',
-    title: 'Influence, Communication & Stakeholder Mastery',
-    description:
-      'At senior levels, everything is negotiation. We sharpen your ability to influence boards, peers, and teams — without coercion, politics, or sacrificing your integrity.',
-    bullets: [
-      'Own any room with clear, commanding executive communication',
-      'Navigate complex stakeholder dynamics with nuance and confidence',
-      'Turn difficult conversations from threats into leverage',
-    ],
-    imageRight: false,
-    accent: '#4ADE80',
-  },
-  {
-    number: '04',
-    title: 'High-Performance Systems & Sustainable Leverage',
-    description:
-      'Elite performance is not about doing more — it\'s about designing better. We help you engineer the systems, rhythms, and boundaries that sustain peak performance without burnout.',
-    bullets: [
-      'Design a personal operating system that protects your energy and focus',
-      'Build team systems that operate without you as the bottleneck',
-      'Reclaim time sovereignty at the senior level',
-    ],
-    imageRight: true,
-    accent: '#4ADE80',
-  },
-  {
-    number: '05',
-    title: 'Legacy, Vision & Long-Game Leadership',
-    description:
-      'What does exceptional leadership look like for you — not on paper, but in life? We work on the vision that pulls you forward, the legacy you\'re building, and the leader you want to become.',
-    bullets: [
-      'Clarify the long-term arc of your career and leadership journey',
-      'Design a personal leadership philosophy that is yours — not borrowed',
-      'Align your professional ambition with what actually matters to you',
-    ],
-    imageRight: false,
-    accent: '#4ADE80',
+    title: 'Direct Elite Access',
+    body: 'One-on-one strategic coaching via WhatsApp. No chatbots. No junior coaches. Just data-driven performance management.',
+    image: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&q=80&auto=format&fit=crop',
   },
 ]
-
-function IncludedBlock({ block, index }: { block: Block; index: number }) {
-  const { ref, inView } = useScrollReveal()
-
-  return (
-    <div
-      ref={ref}
-      className="grid gap-12 items-center md:grid-cols-2 py-14 border-b border-white/5 last:border-0"
-    >
-      {/* Text — conditionally ordered */}
-      <motion.div
-        initial={{ opacity: 0, x: block.imageRight ? -32 : 32 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.55, delay: 0.05 }}
-        className={block.imageRight ? 'md:order-1' : 'md:order-2'}
-      >
-        <span className="font-display text-5xl font-semibold text-[#4ADE80]/15">
-          {block.number}
-        </span>
-        <h3 className="font-display text-2xl md:text-3xl font-semibold text-[#F8F7F4] mt-2 mb-4 leading-snug">
-          {block.title}
-        </h3>
-        <p className="font-sans text-sm text-[#6B7280] leading-relaxed mb-6">
-          {block.description}
-        </p>
-        <ul className="flex flex-col gap-3" role="list">
-          {block.bullets.map((b) => (
-            <li key={b} className="flex gap-3">
-              <svg className="shrink-0 mt-1 text-[#4ADE80]" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2.5 7.5l3 3 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <span className="font-sans text-sm text-[#F8F7F4]/80 leading-relaxed">{b}</span>
-            </li>
-          ))}
-        </ul>
-      </motion.div>
-
-      {/* Visual block */}
-      <motion.div
-        initial={{ opacity: 0, x: block.imageRight ? 32 : -32 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.55, delay: 0.1 }}
-        className={`${block.imageRight ? 'md:order-2' : 'md:order-1'} aspect-[4/3] bg-[#14181F] border border-white/5 rounded-sm flex items-center justify-center`}
-      >
-        <div className="text-center p-8">
-          <p className="font-display text-6xl font-semibold text-[#4ADE80]/10 mb-2">
-            {block.number}
-          </p>
-          <p className="font-display text-lg italic text-[#F8F7F4]/30">{block.title}</p>
-        </div>
-      </motion.div>
-    </div>
-  )
-}
 
 export default function Included() {
   const { ref, inView } = useScrollReveal()
@@ -140,28 +37,48 @@ export default function Included() {
   return (
     <Section id="included" dark={false}>
       <Container>
-        <div ref={ref} className="max-w-2xl mb-4">
-          <motion.p
+        <div ref={ref} className="max-w-2xl mb-16">
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5 }}
-            className="text-[11px] font-sans font-semibold tracking-[0.3em] uppercase text-[#4ADE80] mb-4"
+            className="inline-flex items-center gap-2 bg-black text-white px-4 py-1 rounded-full mb-6"
           >
-            What's Included
-          </motion.p>
+            <span className="text-[10px] font-sans font-bold tracking-widest uppercase">The Pillars</span>
+          </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-display text-4xl md:text-5xl text-[#0A0E14] font-semibold leading-tight text-balance"
+            className="font-display text-4xl md:text-5xl text-black font-bold leading-tight"
           >
-            Five pillars of executive transformation.
+            The blueprint for <br />
+            <span className="text-green bg-black px-4 py-1 rounded-xl inline-block mt-2">Executive Power.</span>
           </motion.h2>
         </div>
 
-        <div>
-          {blocks.map((block, i) => (
-            <IncludedBlock key={block.number} block={block} index={i} />
+        <div className="grid gap-6 md:grid-cols-3">
+          {pillars.map((p, i) => (
+            <motion.div
+              key={p.number}
+              initial={{ opacity: 0, y: 32 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.15 + i * 0.1 }}
+              className="group bg-white rounded-2xl p-8 border border-black/5 hover:border-green/30 transition-all duration-300 shadow-sm"
+            >
+              <div className="relative h-48 mb-8 overflow-hidden rounded-xl">
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                />
+                <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-sm text-white text-[10px] font-bold px-3 py-1 rounded-full">
+                  PILLAR {p.number}
+                </div>
+              </div>
+              <h3 className="font-display text-2xl font-bold text-black mb-4">{p.title}</h3>
+              <p className="font-sans text-sm text-grey leading-relaxed">{p.body}</p>
+            </motion.div>
           ))}
         </div>
       </Container>

@@ -3,72 +3,59 @@ import Container from '@/components/ui/Container'
 import Section from '@/components/ui/Section'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 
-const problems = [
-  {
-    number: '01',
-    heading: 'You\'re the most capable person in the room — and everyone knows it but you.',
-    body: 'Despite consistent results, you second-guess your decisions, soften your opinions, and hold back from claiming the authority you\'ve already earned.',
-  },
-  {
-    number: '02',
-    heading: 'You\'ve been promoted, but the leadership manual didn\'t come with it.',
-    body: 'The skills that got you here — execution, technical excellence, individual output — are not the skills that will take you to the next level. Nobody told you that.',
-  },
-  {
-    number: '03',
-    heading: 'You\'re working harder than ever, but progress feels like a treadmill.',
-    body: 'More hours. More effort. More responsibility. But not more leverage, not more influence, and not more freedom. You\'re busy, not powerful.',
-  },
-  {
-    number: '04',
-    heading: 'You feel isolated at the top — no safe space to think, doubt, or strategise.',
-    body: 'The higher you climb, the fewer people you can be honest with. Peers are competitors. Direct reports need confidence from you. You carry it all — alone.',
-  },
-]
-
 export default function Problem() {
   const { ref, inView } = useScrollReveal()
 
   return (
-    <Section id="problem">
+    <Section id="problem" dark={false}>
       <Container>
-        <div ref={ref} className="max-w-3xl mb-16">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="text-[11px] font-sans font-semibold tracking-[0.3em] uppercase text-[#4ADE80] mb-4"
+        <div
+          ref={ref}
+          className="grid gap-16 md:gap-24 items-center md:grid-cols-2"
+        >
+          {/* Copy */}
+          <motion.div
+            initial={{ opacity: 0, x: -32 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col"
           >
-            The Real Problem
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-display text-4xl md:text-5xl text-[#F8F7F4] font-semibold leading-tight text-balance"
-          >
-            High performance is hiding a deeper gap.
-          </motion.h2>
-        </div>
+            <div className="bg-green text-black px-4 py-1 rounded-full w-fit mb-8">
+              <span className="text-[10px] font-sans font-bold tracking-widest uppercase">The Problem</span>
+            </div>
+            
+            <h2 className="font-display text-4xl md:text-6xl font-bold text-black leading-tight mb-8">
+              You built the company. <br />
+              <span className="text-grey italic">You neglected the vehicle.</span>
+            </h2>
 
-        <div className="grid gap-px bg-white/5 border border-white/5 rounded-sm overflow-hidden md:grid-cols-2">
-          {problems.map((p, i) => (
-            <motion.div
-              key={p.number}
-              initial={{ opacity: 0, y: 24 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
-              className="bg-[#0A0E14] p-8 md:p-10 flex flex-col gap-4"
-            >
-              <span className="font-display text-4xl font-semibold text-[#4ADE80]/20">
-                {p.number}
-              </span>
-              <h3 className="font-display text-xl text-[#F8F7F4] font-medium leading-snug">
-                {p.heading}
-              </h3>
-              <p className="font-sans text-sm text-[#6B7280] leading-relaxed">{p.body}</p>
-            </motion.div>
-          ))}
+            <div className="flex flex-col gap-6 font-sans text-base text-grey leading-relaxed max-w-lg">
+              <p>
+                You manage teams across time zones and close deals at client dinners. You've conquered the boardroom, but the physical toll is undeniable.
+              </p>
+              <p>
+                The problem isn't your discipline. Your career proves you have it in abundance. The problem is that <span className="text-black font-bold">generic plans don't fit high-stakes lives.</span>
+              </p>
+              <p className="text-black font-medium border-l-4 border-green pl-6 py-2 bg-green/5 rounded-r-xl">
+                You need a system that integrates with your stress, your travel, and your real schedule. Not an idealized version of it.
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Image - Rounded & High Impact */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative aspect-square rounded-[2rem] overflow-hidden shadow-2xl"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1000&q=85&auto=format&fit=crop"
+              alt="Goran coaching an executive client"
+              className="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent" />
+          </motion.div>
         </div>
       </Container>
     </Section>

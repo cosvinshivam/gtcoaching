@@ -1,25 +1,24 @@
 import { useState, useEffect, useCallback } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Container from '@/components/ui/Container'
 import Section from '@/components/ui/Section'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { cn } from '@/lib/utils'
 
 interface Transformation {
   id: number
-  name: string
-  role: string
-  before: string
-  after: string
-  bgColor: string
+  image: string
+  caption: string
+  title: string
 }
 
 const transformations: Transformation[] = [
-  { id: 1, name: 'Aditya R.', role: 'VP, Fintech · Mumbai', before: 'Overlooked for MD role 3 years running', after: 'Promoted to Managing Director in 8 months', bgColor: '#14181F' },
-  { id: 2, name: 'Priya S.', role: 'Director, FMCG · Delhi', before: 'Paralysed by imposter syndrome at the table', after: 'Leading global strategy with full authority', bgColor: '#0f1419' },
-  { id: 3, name: 'Rohit M.', role: 'CTO, SaaS Startup · Bangalore', before: 'Team bottleneck — every decision ran through him', after: 'Built autonomous leadership layer; doubled capacity', bgColor: '#111720' },
-  { id: 4, name: 'Sanya K.', role: 'Head of Operations · London', before: 'Burnout, resentment, and no clear path forward', after: 'Designed a role that matched her ambition and life', bgColor: '#0d1118' },
-  { id: 5, name: 'Vikram T.', role: 'SVP, Banking · Singapore', before: 'Technically respected but not seen as "leadership material"', after: 'Recognised as C-suite succession candidate', bgColor: '#10151c' },
-  { id: 6, name: 'Meera J.', role: 'GM, Consulting · Pune', before: 'Avoided difficult conversations; conflict-averse', after: 'Now navigates board-level tensions with precision', bgColor: '#0c1017' },
+  { id: 1, title: 'Fat Loss', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80&auto=format&fit=crop', caption: '18kg lost in 6 months while managing a global portfolio.' },
+  { id: 2, title: 'Muscle Mass', image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80&auto=format&fit=crop', caption: '8kg lean muscle gain with 3 sessions per week.' },
+  { id: 3, title: 'Metabolism', image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=80&auto=format&fit=crop', caption: 'Restored metabolic health and consistent energy levels.' },
+  { id: 4, title: 'Performance', image: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=800&q=80&auto=format&fit=crop', caption: 'Strength benchmarks doubled in 24 weeks.' },
+  { id: 5, title: 'Composition', image: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&q=80&auto=format&fit=crop', caption: '12% body fat reduction despite heavy travel.' },
+  { id: 6, title: 'Vitality', image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80&auto=format&fit=crop', caption: 'Significant improvements in sleep quality and focus.' },
 ]
 
 interface LightboxProps {
@@ -47,43 +46,45 @@ function Lightbox({ item, onClose }: LightboxProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-sm p-5"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95 backdrop-blur-2xl p-5"
       role="dialog"
       aria-modal="true"
-      aria-label={`Transformation story: ${item.name}`}
     >
       <motion.div
-        initial={{ scale: 0.92, opacity: 0 }}
+        initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.92, opacity: 0 }}
-        transition={{ duration: 0.25 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        className="bg-[#14181F] border border-white/10 rounded-sm max-w-md w-full p-8 relative"
+        className="relative max-w-5xl w-full bg-black rounded-[2.5rem] overflow-hidden border border-white/10"
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#6B7280] hover:text-[#F8F7F4] transition-colors"
+          className="absolute top-8 right-8 z-10 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-green hover:text-black transition-all"
           aria-label="Close"
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
 
-        <p className="text-[10px] font-sans font-semibold tracking-[0.3em] uppercase text-[#4ADE80] mb-5">
-          Transformation Story
-        </p>
-        <h3 className="font-display text-2xl font-semibold text-[#F8F7F4] mb-1">{item.name}</h3>
-        <p className="font-sans text-xs text-[#6B7280] mb-7">{item.role}</p>
-
-        <div className="flex flex-col gap-4">
-          <div className="bg-[#0A0E14] rounded-sm p-4">
-            <p className="text-[10px] font-sans font-semibold tracking-widest uppercase text-[#6B7280] mb-2">Before</p>
-            <p className="font-sans text-sm text-[#F8F7F4]/70 leading-relaxed">{item.before}</p>
+        <div className="grid md:grid-cols-2">
+          <div className="aspect-[4/5] overflow-hidden">
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-full h-full object-cover"
+            />
           </div>
-          <div className="bg-[#4ADE80]/10 border border-[#4ADE80]/20 rounded-sm p-4">
-            <p className="text-[10px] font-sans font-semibold tracking-widest uppercase text-[#4ADE80] mb-2">After</p>
-            <p className="font-sans text-sm text-[#F8F7F4] leading-relaxed">{item.after}</p>
+          <div className="p-12 md:p-20 flex flex-col justify-center">
+            <div className="bg-green text-black px-4 py-1 rounded-full w-fit mb-8 font-bold text-[10px] tracking-widest uppercase">
+              Transformation Result
+            </div>
+            <h3 className="font-display text-4xl md:text-6xl font-bold text-white mb-8">{item.title}</h3>
+            <p className="font-sans text-xl text-grey leading-relaxed italic">
+              "{item.caption}"
+            </p>
+            <div className="mt-12 h-px w-20 bg-green" />
           </div>
         </div>
       </motion.div>
@@ -96,74 +97,76 @@ export default function Transformations() {
   const [selected, setSelected] = useState<Transformation | null>(null)
 
   return (
-    <Section id="transformations">
+    <Section id="transformations" className="bg-black">
       <Container>
-        <div ref={ref} className="max-w-2xl mb-14">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            className="text-[11px] font-sans font-semibold tracking-[0.3em] uppercase text-[#4ADE80] mb-4"
-          >
-            Results
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-display text-4xl md:text-5xl text-[#F8F7F4] font-semibold leading-tight text-balance"
-          >
-            Real people. Real transformations.
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="font-sans text-sm text-[#6B7280] mt-4"
-          >
-            Click any card to read the full story.
-          </motion.p>
+        <div ref={ref} className="max-w-3xl mb-16">
+          <div className="bg-green text-black px-4 py-1 rounded-full w-fit mb-8">
+            <span className="text-[10px] font-sans font-bold tracking-widest uppercase">The Outcomes</span>
+          </div>
+          <h2 className="font-display text-4xl md:text-8xl font-bold text-white leading-tight mb-8">
+            Visible. <br />
+            <span className="text-green italic underline decoration-green/30 underline-offset-8">Irrefutable.</span>
+          </h2>
+          <p className="font-sans text-lg text-grey leading-relaxed max-w-xl">
+            Success in the gym is as measurable as success in business. We don't guess. We track, we optimize, and we deliver.
+          </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Bento Grid Gallery */}
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {transformations.map((t, i) => (
-            <motion.button
+            <motion.div
               key={t.id}
               initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
+              transition={{ duration: 0.5, delay: 0.1 + i * 0.1 }}
+              className={cn(
+                "group relative aspect-square overflow-hidden rounded-[2rem] cursor-pointer bg-onyx",
+                i === 0 && "sm:col-span-2 sm:aspect-[2/1] lg:col-span-2 lg:aspect-[2/1]"
+              )}
               onClick={() => setSelected(t)}
-              className="text-left bg-[#14181F] border border-white/5 rounded-sm p-6 hover:border-[#4ADE80]/30 hover:bg-[#14181F]/80 transition-all duration-200 group focus-visible:outline-2 focus-visible:outline-[#4ADE80]"
-              aria-label={`View transformation: ${t.name}`}
             >
-              <div className="flex items-start justify-between gap-3 mb-5">
-                <div>
-                  <p className="font-display text-base font-medium text-[#F8F7F4] group-hover:text-[#4ADE80] transition-colors">
-                    {t.name}
+              <img
+                src={t.image}
+                alt={t.title}
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+              
+              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+                <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  <p className="text-[10px] font-sans font-bold tracking-[0.2em] uppercase text-green mb-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {t.title}
                   </p>
-                  <p className="font-sans text-xs text-[#6B7280] mt-0.5">{t.role}</p>
-                </div>
-                <div className="w-8 h-8 rounded-full bg-[#4ADE80]/10 flex items-center justify-center shrink-0 group-hover:bg-[#4ADE80]/20 transition-colors">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M2.5 9.5l7-7M4 2.5h5.5V8" stroke="#4ADE80" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <h3 className="font-display text-2xl font-bold text-white mb-2">{t.caption}</h3>
+                  <div className="w-8 h-1 bg-green scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
                 </div>
               </div>
-              <div className="flex flex-col gap-2">
-                <p className="font-sans text-xs text-[#6B7280] line-clamp-2">
-                  <span className="text-[#6B7280]/60">Before: </span>{t.before}
-                </p>
-                <p className="font-sans text-xs text-[#F8F7F4]/80 line-clamp-2">
-                  <span className="text-[#4ADE80]">After: </span>{t.after}
-                </p>
-              </div>
-            </motion.button>
+            </motion.div>
           ))}
+        </div>
+
+        <div className="mt-20 pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-10">
+          <div className="flex gap-12">
+            <div>
+              <span className="block font-display text-3xl font-bold text-white">500+</span>
+              <span className="text-[9px] font-sans font-bold tracking-widest uppercase text-grey">Results Delivered</span>
+            </div>
+            <div>
+              <span className="block font-display text-3xl font-bold text-white">10-25kg</span>
+              <span className="text-[9px] font-sans font-bold tracking-widest uppercase text-grey">Avg. Weight Loss</span>
+            </div>
+          </div>
+          <p className="font-sans text-[10px] text-grey/60 uppercase tracking-widest text-center md:text-right italic">
+            Privacy is paramount. Authentic results from real high-performing clients.
+          </p>
         </div>
       </Container>
 
       {/* Lightbox */}
-      {selected && <Lightbox item={selected} onClose={() => setSelected(null)} />}
+      <AnimatePresence>
+        {selected && <Lightbox item={selected} onClose={() => setSelected(null)} />}
+      </AnimatePresence>
     </Section>
   )
 }
