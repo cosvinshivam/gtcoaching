@@ -1,25 +1,27 @@
 import { motion } from 'framer-motion'
 import Container from '@/components/ui/Container'
 import Section from '@/components/ui/Section'
-import Button from '@/components/ui/Button'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { cn } from '@/lib/utils'
 
-const cards = [
+const plans = [
   {
-    id: 'audit',
-    tag: '4 MINS',
-    title: 'The Body Audit',
-    description: 'Score yourself across the five pillars of executive performance. Data-driven and brutally honest.',
-    cta: 'Start Audit',
-    image: 'https://images.unsplash.com/photo-1461088945293-0c17689e48ac?w=800&q=85&auto=format&fit=crop',
+    name: 'Introductory',
+    price: '$50',
+    features: ['1-on-1 coaching session', 'Personalized training plan', 'Goal setting session'],
+    highlight: false,
   },
   {
-    id: 'file',
-    tag: '8 PAGES',
-    title: 'The Performance File',
-    description: 'A deep dive into three real-world transformations. Numbers, schedules, and outcomes.',
-    cta: 'Get Access',
-    image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=85&auto=format&fit=crop',
+    name: 'Advanced',
+    price: '$120',
+    features: ['3 coaching sessions per week', 'Custom nutrition framework', 'Priority support', 'Monthly assessment'],
+    highlight: true,
+  },
+  {
+    name: 'Group training',
+    price: '$40',
+    features: ['Weekly group sessions', 'Sport-specific drills', 'Community access'],
+    highlight: false,
   },
 ]
 
@@ -27,45 +29,70 @@ export default function LeadMagnet() {
   const { ref, inView } = useScrollReveal()
 
   return (
-    <Section id="resources" className="bg-black">
+    <Section id="pricing" dark={false} className="bg-white">
       <Container>
-        <div ref={ref} className="max-w-3xl mb-16 text-center mx-auto">
-          <div className="bg-green text-black px-4 py-1 rounded-full w-fit mb-8 mx-auto">
-            <span className="text-[10px] font-sans font-bold tracking-widest uppercase">Resources</span>
-          </div>
-          <h2 className="font-display text-4xl md:text-7xl font-bold text-white leading-tight mb-8">
-            Upgrade Your <br />
-            <span className="text-green italic">Operating System.</span>
+        <div ref={ref} className="text-center mb-24">
+          <span className="text-[11px] font-black tracking-[0.3em] uppercase text-grey mb-8 block">
+            Pricing
+          </span>
+          <h2 className="text-5xl md:text-8xl font-black text-black leading-tight tracking-tighter uppercase">
+            Choose your <br />
+            <span className="text-grey italic">plan</span>
           </h2>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
-          {cards.map((card, i) => (
+        <div className="grid gap-8 lg:grid-cols-3 items-end">
+          {plans.map((plan, i) => (
             <motion.div
-              key={card.id}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
-              className="bg-onyx rounded-[2.5rem] overflow-hidden group border border-white/5 hover:border-green/20 transition-all"
+              key={plan.name}
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className={cn(
+                "p-12 rounded-[48px] border transition-all duration-500 relative overflow-hidden",
+                plan.highlight 
+                  ? "bg-black text-white border-black h-[110%] z-10 shadow-3xl" 
+                  : "bg-[#F4F4F4] text-black border-black/5"
+              )}
             >
-              <div className="relative h-64 overflow-hidden">
-                <img
-                  src={card.image}
-                  alt={card.title}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-onyx to-transparent opacity-80" />
-                <div className="absolute top-6 left-6 bg-green text-black text-[9px] font-black px-3 py-1 rounded-full tracking-widest">
-                  {card.tag}
+              {plan.highlight && (
+                <div className="absolute top-8 right-8 bg-green text-black px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                  Best Seller
                 </div>
+              )}
+
+              <h3 className="text-2xl font-black mb-8 tracking-tighter uppercase">{plan.name}</h3>
+              <div className="flex items-baseline gap-2 mb-12">
+                <span className="text-6xl font-black tracking-tighter">{plan.price}</span>
+                <span className={cn("text-sm font-bold uppercase", plan.highlight ? "text-green" : "text-grey")}>
+                  Per session
+                </span>
               </div>
-              <div className="p-10 flex flex-col gap-6">
-                <h3 className="font-display text-3xl font-bold text-white leading-none">{card.title}</h3>
-                <p className="font-sans text-base text-grey leading-relaxed">{card.description}</p>
-                <Button href="#apply" variant="green" size="md" className="w-full">
-                  {card.cta}
-                </Button>
-              </div>
+
+              <div className="w-full h-px bg-current opacity-10 mb-12" />
+
+              <ul className="flex flex-col gap-5 mb-16">
+                {plan.features.map((f) => (
+                  <li key={f} className="flex gap-4 items-start text-sm font-bold">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className={plan.highlight ? "text-green" : "text-black"}>
+                      <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
+              <a href="#apply" className={cn(
+                "btn-athlenia w-full justify-center text-base py-5",
+                plan.highlight ? "bg-green text-black" : "bg-black text-white"
+              )}>
+                Get started
+                <span className={cn("icon-pill", plan.highlight ? "bg-black text-white" : "bg-green text-black")}>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M2.5 9.5l7-7M4 2.5h5.5V8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </a>
             </motion.div>
           ))}
         </div>

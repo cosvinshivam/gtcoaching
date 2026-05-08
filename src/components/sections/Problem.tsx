@@ -7,54 +7,61 @@ export default function Problem() {
   const { ref, inView } = useScrollReveal()
 
   return (
-    <Section id="problem" dark={false}>
+    <Section id="about" dark={false} className="bg-white overflow-hidden py-32">
       <Container>
-        <div
-          ref={ref}
-          className="grid gap-16 md:gap-24 items-center md:grid-cols-2"
-        >
-          {/* Copy */}
+        <div ref={ref} className="grid lg:grid-cols-[400px_1fr] gap-24 items-start">
+          
+          {/* Left Column: Icons & Label */}
           <motion.div
-            initial={{ opacity: 0, x: -32 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col"
+            className="flex flex-col gap-20"
           >
-            <div className="bg-green text-black px-4 py-1 rounded-full w-fit mb-8">
-              <span className="text-[10px] font-sans font-bold tracking-widest uppercase">The Problem</span>
-            </div>
-            
-            <h2 className="font-display text-4xl md:text-6xl font-bold text-black leading-tight mb-8">
-              You built the company. <br />
-              <span className="text-grey italic">You neglected the vehicle.</span>
-            </h2>
+            <span className="text-[12px] font-bold tracking-[0.4em] uppercase text-black">
+              Our Coaching
+            </span>
 
-            <div className="flex flex-col gap-6 font-sans text-base text-grey leading-relaxed max-w-lg">
-              <p>
-                You manage teams across time zones and close deals at client dinners. You've conquered the boardroom, but the physical toll is undeniable.
-              </p>
-              <p>
-                The problem isn't your discipline. Your career proves you have it in abundance. The problem is that <span className="text-black font-bold">generic plans don't fit high-stakes lives.</span>
-              </p>
-              <p className="text-black font-medium border-l-4 border-green pl-6 py-2 bg-green/5 rounded-r-xl">
-                You need a system that integrates with your stress, your travel, and your real schedule. Not an idealized version of it.
-              </p>
+            {/* Decorative Icons with refined placement */}
+            <div className="relative h-[300px]">
+              <div className="absolute top-0 right-20 w-3 h-3 bg-black rounded-full" />
+              <div className="absolute top-28 right-5 w-8 h-8 bg-black rounded-full" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 text-black">
+                <svg viewBox="0 0 100 100" fill="currentColor">
+                   {/* Massive 8-pointed star/asterisk per screenshot */}
+                   <path d="M50 0L53.5 46.5L100 50L53.5 53.5L50 100L46.5 53.5L0 50L46.5 46.5L50 0Z" />
+                   <path d="M14.6 14.6L85.4 85.4" stroke="currentColor" strokeWidth="8"/>
+                   <path d="M85.4 14.6L14.6 85.4" stroke="currentColor" strokeWidth="8"/>
+                </svg>
+              </div>
             </div>
           </motion.div>
 
-          {/* Image - Rounded & High Impact */}
+          {/* Right Column: High-Fidelity Text Gradient/Opacity */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative aspect-square rounded-[2rem] overflow-hidden shadow-2xl"
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex flex-col"
           >
-            <img
-              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1000&q=85&auto=format&fit=crop"
-              alt="Goran coaching an executive client"
-              className="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent" />
+            <h2 className="text-[42px] md:text-[68px] font-medium leading-[1.1] tracking-[-0.03em] text-black text-balance">
+              Unlock your full athletic potential with expert <span className="inline-block bg-black text-white px-8 py-1 rounded-full font-bold">coaching</span> 
+              <span className="text-[#C4C4C4] transition-all duration-1000"> tailored to your goals. Whether you're just starting or going pro, we're here to guide every step of your fitness journey.</span>
+            </h2>
+
+            {/* CTA Row - Divider + Arrow Button */}
+            <div className="mt-28 pt-12 border-t border-black/10 flex items-center justify-between group">
+              <span className="font-bold text-black text-base uppercase tracking-widest">
+                Claim your free assessment
+              </span>
+              <a 
+                href="#apply" 
+                className="w-20 h-20 rounded-full bg-black text-white flex items-center justify-center transition-all duration-300 group-hover:bg-green group-hover:text-black shadow-lg"
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                  <path d="M7 17l10-10M10 7h7v7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            </div>
           </motion.div>
         </div>
       </Container>

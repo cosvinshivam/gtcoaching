@@ -7,14 +7,16 @@
   --color-green: #CEFF65;
   --color-offwhite: #F4F4F4;
   --color-ink: #111111;
-  --color-grey: #808080;
+  --color-grey: #565656;
   --color-black: #000000;
 
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-display: 'Inter', system-ui, sans-serif;
   
-  --radius-xl: 16px;
-  --radius-2xl: 24px;
+  --radius-xl: 32px;
+  --radius-2xl: 48px;
+  --radius-3xl: 64px; /* Athlenia hero mask radius */
+  --radius-pill: 100px;
 }
 
 @layer base {
@@ -31,17 +33,18 @@
   }
 
   body {
-    background-color: #000000;
-    color: #F4F4F4;
+    background-color: #F4F4F4;
+    color: #000000;
     font-family: 'Inter', system-ui, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 18px;
+    line-height: 1.5;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Inter', system-ui, sans-serif;
-    line-height: 1.1;
+    line-height: 1.17;
     letter-spacing: -0.02em;
+    font-weight: 500; /* Reverted from 900 to match Athlenia exactly */
   }
 
   img {
@@ -54,51 +57,35 @@
     text-decoration: none;
   }
 
-  button {
-    cursor: pointer;
-    border: none;
-    background: none;
-    font-family: inherit;
-  }
-
   ::selection {
     background-color: #CEFF65;
     color: #000000;
   }
-
-  :focus-visible {
-    outline: 2px solid #CEFF65;
-    outline-offset: 3px;
-  }
 }
 
 @layer utilities {
-  .font-display {
-    font-family: 'Inter', system-ui, sans-serif;
+  .container-athlenia {
+    @apply mx-auto max-w-[1320px] px-[62px];
   }
 
-  .font-sans {
-    font-family: 'Inter', system-ui, sans-serif;
+  .section-athlenia {
+    @apply py-[120px];
   }
 
   .text-balance {
     text-wrap: balance;
   }
-
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
 }
 
-/* Details/Summary accordion styles */
-details > summary {
-  list-style: none;
-  cursor: pointer;
+/* Custom button with icon pill */
+.btn-athlenia {
+  @apply inline-flex items-center gap-3 bg-black text-white px-8 py-4 rounded-full font-bold text-sm hover:opacity-90 transition-all duration-300;
 }
-details > summary::-webkit-details-marker {
-  display: none;
+.btn-athlenia .icon-pill {
+  @apply w-10 h-10 rounded-full bg-green text-black flex items-center justify-center -mr-4 ml-4;
+}
+
+/* Arrow Circle - Signature component */
+.arrow-circle {
+  @apply w-16 h-16 rounded-full bg-green text-black flex items-center justify-center transition-all duration-300;
 }

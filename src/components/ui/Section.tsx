@@ -12,8 +12,8 @@ export default function Section({ children, className, id, dark = true }: Sectio
     <section
       id={id}
       className={cn(
-        'relative overflow-hidden py-20 md:py-28',
-        dark ? 'bg-black text-white' : 'bg-offwhite text-ink',
+        'section-athlenia relative overflow-hidden',
+        dark ? 'bg-black text-white' : 'bg-offwhite text-black',
         className
       )}
     >
