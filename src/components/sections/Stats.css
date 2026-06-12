@@ -1,0 +1,33 @@
+.stats {
+  padding: var(--spacing-xl) 0;
+  background-color: var(--color-off-white);
+  border-bottom: 1px solid var(--color-light-grey);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item .h2 {
+  color: var(--color-lime);
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

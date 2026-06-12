@@ -1,1 +1,105 @@
-/* Tailwind and Google Fonts are imported in globals.css */
+@import './styles/variables.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: var(--font-primary);
+  background-color: var(--color-white);
+  color: var(--color-black);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Typography Utility Classes */
+.h1 { font-size: clamp(3rem, 8vw, 6rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; text-transform: uppercase; }
+.h2 { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.01em; text-transform: uppercase; }
+.h3 { font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 700; line-height: 1.2; }
+.p-large { font-size: 1.25rem; color: var(--color-medium-grey); }
+.p-medium { font-size: 1rem; color: var(--color-medium-grey); }
+
+/* Layout Components */
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.section {
+  padding: var(--spacing-xxl) 0;
+}
+
+/* Common UI Elements */
+.button-primary {
+  background-color: var(--color-lime);
+  color: var(--color-black);
+  padding: 1rem 2rem;
+  border-radius: 100px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.button-primary:hover {
+  transform: scale(1.05);
+  background-color: var(--color-white);
+}
+
+.button-secondary {
+  background-color: transparent;
+  color: var(--color-black);
+  border: 1px solid var(--color-black);
+  padding: 1rem 2rem;
+  border-radius: 100px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: all var(--transition-fast);
+}
+
+.button-secondary:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-light-grey);
+  border-radius: var(--radius-huge);
+  padding: var(--spacing-xl);
+  transition: all var(--transition-medium);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}

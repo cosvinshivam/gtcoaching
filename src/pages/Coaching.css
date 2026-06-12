@@ -1,0 +1,247 @@
+.coaching-v2 {
+  background-color: var(--color-white);
+  padding-top: 100px;
+}
+
+.coaching-hero-v2 {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.coaching-hero-header-v2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 60px;
+}
+
+.coaching-title-v2 {
+  font-size: 80px;
+  font-weight: 500;
+  line-height: 1.1;
+  text-transform: none;
+  margin: 0;
+}
+
+.icon-lime {
+  color: var(--color-lime);
+}
+
+.coaching-hero-image-v2 {
+  width: 100%;
+  height: 650px;
+  border-radius: 40px;
+  overflow: hidden;
+}
+
+.coaching-hero-image-v2 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Stats Section */
+.coaching-stats-grid-v2 {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.stats-badge-circle {
+  width: 280px;
+  height: 280px;
+  background-color: var(--color-black);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  text-align: center;
+  margin: 0 auto;
+}
+
+.circle-inner {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.circle-inner .val {
+  font-size: 100px;
+  font-weight: 700;
+  line-height: 0.8;
+}
+
+.circle-inner .plus-badge {
+  font-size: 40px;
+  color: var(--color-lime);
+  margin-top: 5px;
+}
+
+.stats-badge-circle p {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stats-text-content-v2 h2 {
+  font-size: 56px;
+  line-height: 1.1;
+  margin: 24px 0;
+}
+
+/* Expert Support Section */
+.support-grid-v2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+}
+
+.support-left h2 {
+  font-size: 48px;
+  margin: 24px 0 48px;
+}
+
+.numbered-steps-v2 {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.step-item-v2 {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid var(--color-light-grey);
+  padding-bottom: 24px;
+}
+
+.step-num {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-lime);
+}
+
+.step-info h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.step-info p {
+  color: var(--color-medium-grey);
+}
+
+.support-right-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.service-card-v2 {
+  background-color: #f7f7f7;
+  padding: 40px;
+  border-radius: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.s-icon-v2 {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.service-card-v2 h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.service-card-v2 p {
+  font-size: 15px;
+  color: var(--color-medium-grey);
+  margin-bottom: 32px;
+  flex: 1;
+}
+
+.service-card-v2 a {
+  font-weight: 600;
+  color: var(--color-black);
+  text-transform: uppercase;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* CTA Features Grid */
+.cta-grid-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.cta-grid-header h2 {
+  font-size: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cta-features-v2 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.cta-feat-card-v2 {
+  background-color: #f7f7f7;
+  padding: 40px;
+  border-radius: 32px;
+  text-align: left;
+}
+
+.cta-feat-card-v2 h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 20px 0 12px;
+}
+
+.cta-feat-card-v2 p {
+  font-size: 14px;
+  color: var(--color-medium-grey);
+  line-height: 1.6;
+}
+
+@media (max-width: 992px) {
+  .coaching-stats-grid-v2,
+  .support-grid-v2,
+  .cta-features-v2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .coaching-title-v2 {
+    font-size: 48px;
+  }
+  
+  .support-right-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .support-right-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-text-content-v2 h2 {
+    font-size: 36px;
+  }
+}

@@ -1,0 +1,45 @@
+:root {
+  /* Colors */
+  --color-black: #1a1b1d;
+  --color-white: #ffffff;
+  --color-off-white: #f5f7fa;
+  --color-lime: #ceff65;
+  --color-dark-grey: #f0f2f5; /* Light grey for cards in light mode */
+  --color-medium-grey: #565656;
+  --color-light-grey: #dbdbdb;
+
+  /* Typography */
+  --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Inter', system-ui, -apple-system, sans-serif; /* In Athlenia, headings are often Inter but very bold/tight */
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+  --spacing-xxl: 8rem;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-huge: 64px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* Container */
+  --container-max-width: 1400px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --spacing-xl: 2rem;
+    --spacing-xxl: 4rem;
+    --radius-huge: 32px;
+  }
+}

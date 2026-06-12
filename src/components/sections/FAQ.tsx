@@ -1,64 +1,109 @@
-import { motion } from 'framer-motion'
-import Container from '@/components/ui/Container'
-import Section from '@/components/ui/Section'
-import { useScrollReveal } from '@/hooks/useScrollReveal'
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Minus } from 'lucide-react';
+import './FAQ.css';
 
-const faqs = [
-  { question: 'What is the investment?', answer: 'The program is a six-month commitment. Investment ranges from $600 to $1,200 per month depending on the specific protocols and level of monitoring required.' },
-  { question: 'What is the time commitment?', answer: 'You need 3-4 hours per week for training. Nutrition and lifestyle protocols are integrated into your existing routine. This is built for people with zero spare time.' },
-  { question: 'Does this work for travelers?', answer: 'Yes. Most of my clients spend 50% of their time on the road. We build hotel-gym protocols and restaurant templates that move with you.' },
-  { question: 'What makes this different?', answer: 'Most coaches sell effort. I sell systems. We don\'t rely on how you "feel" that day. We follow the data-driven framework we built together.' },
-]
+const faqData = {
+  "Training and Performance": [
+    {
+      question: "Do I need prior experience to start coaching?",
+      answer: "No prior experience is needed. Our coaches work with athletes of all levels, from beginners to professionals, tailoring programs to your current abilities."
+    },
+    {
+      question: "What sports do you offer coaching for?",
+      answer: "We offer specialized coaching for football, basketball, swimming, cycling, athletics, and more. If your sport isn't listed, contact us for a custom consultation."
+    },
+    {
+      question: "Are private 1-on-1 sessions available?",
+      answer: "Yes, we offer highly focused private sessions for maximum attention and faster progress."
+    }
+  ],
+  "Pricing and Packages": [
+    {
+      question: "Are there any setup fees?",
+      answer: "No, there are no hidden setup fees. You only pay the listed price for your chosen coaching plan."
+    },
+    {
+      question: "What payment methods do you accept?",
+      answer: "We accept all major credit cards, PayPal, and bank transfers for annual plans."
+    }
+  ],
+  "Scheduling and Availability": [
+    {
+      question: "What is your cancellation policy?",
+      answer: "We require at least 24 hours' notice for cancellations. Sessions cancelled with less than 24 hours' notice may be charged."
+    }
+  ]
+};
 
-export default function FAQ() {
-  const { ref, inView } = useScrollReveal()
+type FAQItemProps = { question: string; answer: string; isOpen: boolean; onClick: () => void };
+
+const FAQItem = ({ question, answer, isOpen, onClick }: FAQItemProps) => (
+  <div className={`faq-item-v1 ${isOpen ? 'open' : ''}`} onClick={onClick}>
+    <div className="faq-header-v1">
+      <h3>{question}</h3>
+      <div className="faq-icon-v1">
+        {isOpen ? <Minus size={20} /> : <Plus size={20} />}
+      </div>
+    </div>
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div 
+          className="faq-answer-v1"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <p>{answer}</p>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+);
+
+const FAQ = () => {
+  const [activeCategory, setActiveCategory] = useState<keyof typeof faqData>("Training and Performance");
+  const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <Section id="faq" dark={false} className="bg-offwhite">
-      <Container>
-        <div ref={ref} className="max-w-3xl mb-16">
-          <div className="bg-black text-white px-4 py-1 rounded-full w-fit mb-8">
-            <span className="text-[10px] font-sans font-bold tracking-widest uppercase">Intelligence</span>
+    <section className="faq-v1 section">
+      <div className="container">
+        <div className="faq-layout-v1">
+          <div className="faq-sidebar-v1">
+            <span className="badge">Knowledge Base</span>
+            <h2 className="h2">Common questions</h2>
+            <div className="faq-categories-v1">
+              {Object.keys(faqData).map((cat) => (
+                <button 
+                  key={cat}
+                  className={`cat-btn ${activeCategory === cat ? 'active' : ''}`}
+                  onClick={() => {
+                    setActiveCategory(cat as keyof typeof faqData);
+                    setOpenIndex(0);
+                  }}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
-          <h2 className="font-display text-4xl md:text-7xl font-bold text-black leading-tight mb-8">
-            The <br />
-            <span className="text-grey italic">Details.</span>
-          </h2>
-        </div>
 
-        <div className="max-w-4xl flex flex-col gap-4">
-          {faqs.map((faq, i) => (
-            <motion.div
-              key={faq.question}
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
-              className="bg-white rounded-3xl border border-black/5 overflow-hidden group hover:border-green/30 transition-all"
-            >
-              <details className="group">
-                <summary className="flex items-center justify-between gap-6 p-8 cursor-pointer select-none list-none">
-                  <h3 className="font-sans text-xl font-bold text-black tracking-tight">
-                    {faq.question}
-                  </h3>
-                  <div className="shrink-0 w-10 h-10 rounded-full bg-black/5 flex items-center justify-center group-open:bg-green group-open:text-black transition-all">
-                    <svg
-                      className="text-black group-open:rotate-45 transition-transform duration-300"
-                      width="14" height="14" viewBox="0 0 10 10" fill="none"
-                    >
-                      <path d="M5 0v10M0 5h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                </summary>
-                <div className="px-8 pb-8 pr-16">
-                  <p className="font-sans text-base text-grey leading-relaxed">
-                    {faq.answer}
-                  </p>
-                </div>
-              </details>
-            </motion.div>
-          ))}
+          <div className="faq-list-v1">
+            {faqData[activeCategory].map((faq, index) => (
+              <FAQItem 
+                key={index}
+                question={faq.question}
+                answer={faq.answer}
+                isOpen={openIndex === index}
+                onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
+              />
+            ))}
+          </div>
         </div>
-      </Container>
-    </Section>
-  )
-}
+      </div>
+    </section>
+  );
+};
+
+export default FAQ;

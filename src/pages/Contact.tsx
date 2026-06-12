@@ -1,45 +1,66 @@
-import Container from '@/components/ui/Container'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
-import ApplicationForm from '@/components/sections/ApplicationForm'
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
+import './Contact.css';
+import contactHeroImg from '../assets/contact-hero.png';
 
-export default function Contact() {
+const Contact = () => {
   return (
-    <>
-      <Header />
-      <main className="bg-white pt-40 pb-24">
-        <Container>
-          <div className="grid lg:grid-cols-2 gap-24 items-start mb-32">
-             <div>
-                <span className="text-[12px] font-bold tracking-[0.4em] uppercase text-black mb-8 block">Connect</span>
-                <h1 className="text-5xl md:text-9xl font-medium tracking-tighter uppercase mb-16">
-                  Get in <br />
-                  <span className="text-[#C4C4C4]">Touch</span>
-                </h1>
-                
-                <div className="flex flex-col gap-12">
-                   <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-grey mb-4">Email us</p>
-                      <a href="mailto:performance@athlenia.com" className="text-3xl md:text-4xl font-bold hover:text-green transition-colors">performance@athlenia.com</a>
-                   </div>
-                   <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-grey mb-4">Call us</p>
-                      <a href="tel:+97150000000" className="text-3xl md:text-4xl font-bold hover:text-green transition-colors">+971 50 000 000</a>
-                   </div>
-                   <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-grey mb-4">Office</p>
-                      <p className="text-3xl md:text-4xl font-bold">Dubai Design District, UAE</p>
-                   </div>
-                </div>
-             </div>
-
-             <div className="bg-offwhite p-12 md:p-20 rounded-[4rem]">
-                <ApplicationForm />
-             </div>
+    <div className="contact-v2">
+      {/* Hero Section */}
+      <section className="contact-hero-v2">
+        <div className="container">
+          <div className="contact-hero-image-v2">
+            <img src={contactHeroImg} alt="Coaches" />
           </div>
-        </Container>
-      </main>
-      <Footer />
-    </>
-  )
-}
+        </div>
+      </section>
+
+
+
+      {/* Form Section */}
+      <section className="contact-form-section section">
+        <div className="container form-layout-v2">
+          <div className="form-header-v2">
+            <h2 className="h2">Send us a message</h2>
+            <p className="p-large">Whether you're looking to start coaching or have a general inquiry, our team is ready to assist you on your journey.</p>
+          </div>
+
+          <form className="contact-form-v2">
+            <div className="form-grid-v2">
+              <div className="form-group-v2">
+                <label>Your name*</label>
+                <input type="text" placeholder="Your name" required />
+              </div>
+              <div className="form-group-v2">
+                <label>Email address*</label>
+                <input type="email" placeholder="Email address" required />
+              </div>
+              <div className="form-group-v2">
+                <label>Phone number*</label>
+                <input type="tel" placeholder="Phone number" required />
+              </div>
+              <div className="form-group-v2">
+                <label>Subject</label>
+                <input type="text" placeholder="Subject" />
+              </div>
+            </div>
+            <div className="form-group-v2 full-width">
+              <label>Message</label>
+              <textarea rows={6} placeholder="How can we help?"></textarea>
+            </div>
+            
+            <button type="submit" className="btn-black-v2">
+              Submit message 
+              <div className="icon-circle-lime">
+                <ArrowUpRight size={20} />
+              </div>
+            </button>
+          </form>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Contact;

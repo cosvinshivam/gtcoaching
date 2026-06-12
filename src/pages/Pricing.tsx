@@ -1,106 +1,148 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import Container from '@/components/ui/Container'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
-import Button from '@/components/ui/Button'
-import { cn } from '@/lib/utils'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Check, ArrowUpRight } from 'lucide-react';
+import './Pricing.css';
 
-export default function Pricing() {
-  const [isYearly, setIsYearly] = useState(false)
+const plans = [
+  {
+    name: "Starter Plan",
+    monthlyPrice: 199,
+    monthlyWas: 249,
+    yearlyPrice: 159,
+    yearlyWas: 199,
+    features: ["Intro session", "Weekly coaching", "Monthly coaching", "Group coaching", "Performance assessment"]
+  },
+  {
+    name: "Standard Plan",
+    monthlyPrice: 299,
+    monthlyWas: 349,
+    yearlyPrice: 249,
+    yearlyWas: 299,
+    features: ["Intro session", "Weekly coaching", "Monthly coaching", "Group coaching", "Performance assessment", "Video analysis"],
+    popular: true
+  },
+  {
+    name: "Premium Plan",
+    monthlyPrice: 499,
+    monthlyWas: 599,
+    yearlyPrice: 399,
+    yearlyWas: 499,
+    features: ["Intro session", "Weekly coaching", "Monthly coaching", "Group coaching", "Performance assessment", "Video analysis", "Custom training plan", "Nutrition plan"]
+  },
+  {
+    name: "Customize Plan",
+    monthlyPrice: "Custom",
+    monthlyWas: null,
+    yearlyPrice: "Custom",
+    yearlyWas: null,
+    features: ["Intro session", "Weekly coaching", "Monthly coaching", "Group coaching", "Performance assessment", "Video analysis", "Custom training plan", "Nutrition plan", "Dedicated 1-on-1 support"]
+  }
+];
+
+const featuresList = [
+  "Intro session", "Weekly coaching", "Monthly coaching", "Group coaching", 
+  "Performance assessment", "Video analysis", "Custom training plan", "Nutrition plan", "Dedicated 1-on-1 support"
+];
+
+const Pricing = () => {
+  const [isYearly, setIsYearly] = useState(false);
 
   return (
-    <>
-      <Header />
-      <main className="bg-white pt-40 pb-24">
-        <Container>
-          <div className="text-center mb-20">
-            <span className="text-[12px] font-bold tracking-[0.4em] uppercase text-black mb-8 block">Investment</span>
-            <h1 className="text-5xl md:text-9xl font-medium tracking-tighter uppercase mb-12">
-              Performance <br />
-              <span className="text-[#C4C4C4]">Pricing</span>
-            </h1>
-
-            {/* Billing Toggle */}
-            <div className="flex items-center justify-center gap-6 mt-16">
-               <span className={cn("text-sm font-bold uppercase transition-colors", !isYearly ? "text-black" : "text-grey")}>Monthly</span>
-               <button 
-                 onClick={() => setIsYearly(!isYearly)}
-                 className="w-16 h-8 bg-black/5 rounded-full p-1 relative flex items-center"
-               >
-                  <motion.div 
-                    animate={{ x: isYearly ? 32 : 0 }}
-                    className="w-6 h-6 bg-green rounded-full shadow-lg"
-                  />
-               </button>
-               <span className={cn("text-sm font-bold uppercase transition-colors", isYearly ? "text-black" : "text-grey")}>Yearly <span className="text-green text-[10px] ml-1">-20%</span></span>
+    <div className="pricing-v2">
+      {/* Hero Section */}
+      <section className="pricing-hero-v2">
+        <div className="container">
+          <div className="pricing-hero-content-v2">
+            
+            <div className="toggle-wrapper-v2">
+              <span className={`toggle-label ${!isYearly ? 'active' : ''}`}>Monthly</span>
+              <div 
+                className={`toggle-switch-v2 ${isYearly ? 'yearly' : ''}`}
+                onClick={() => setIsYearly(!isYearly)}
+              >
+                <div className="switch-knob"></div>
+              </div>
+              <span className={`toggle-label ${isYearly ? 'active' : ''}`}>Yearly</span>
+              {isYearly && <span className="discount-badge">SAVE 20%</span>}
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="grid lg:grid-cols-3 gap-8 items-end max-w-6xl mx-auto">
-             {[
-               { name: 'Elite', price: 499, highlight: false },
-               { name: 'Pro', price: 899, highlight: true },
-               { name: 'Team', price: 1299, highlight: false }
-             ].map((plan) => (
-               <div 
-                 key={plan.name}
-                 className={cn(
-                   "p-12 rounded-[4rem] border transition-all duration-500",
-                   plan.highlight ? "bg-black text-white h-[110%] z-10 shadow-3xl" : "bg-offwhite text-black border-black/5"
-                 )}
-               >
-                  <h3 className="text-2xl font-bold mb-10 uppercase tracking-tighter">{plan.name}</h3>
-                  <div className="flex items-baseline gap-2 mb-12">
-                     <span className="text-6xl md:text-7xl font-bold tracking-tighter">
-                        ${isYearly ? Math.floor(plan.price * 0.8) : plan.price}
-                     </span>
-                     <span className="text-sm font-bold uppercase text-grey">/mo</span>
+      {/* Plans Section */}
+      <section className="pricing-plans-v2 section">
+        <div className="container plans-grid-v2">
+          {plans.map((plan, index) => (
+            <motion.div 
+              key={index}
+              className={`plan-card-v2 ${plan.popular ? 'popular' : ''}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <div className="plan-header-v2">
+                <h3>{plan.name}</h3>
+                <div className="price-tag-v2">
+                  {plan.monthlyWas && <span className="was-price">${isYearly ? plan.yearlyWas : plan.monthlyWas}</span>}
+                  <div className="current-price-v2">
+                    {typeof plan.monthlyPrice === 'number' && <span className="currency">$</span>}
+                    <span className={typeof plan.monthlyPrice === 'string' ? "amount string-amount" : "amount"}>{isYearly ? plan.yearlyPrice : plan.monthlyPrice}</span>
+                    {typeof plan.monthlyPrice === 'number' && <span className="period">/mo</span>}
                   </div>
-                  <ul className="flex flex-col gap-6 mb-16">
-                     {['Personal Training', 'Nutrition Plan', 'Recovery Protocol', '24/7 Support'].map(f => (
-                       <li key={f} className="flex gap-4 items-center font-bold text-sm">
-                          <div className={cn("w-2 h-2 rounded-full", plan.highlight ? "bg-green" : "bg-black")} />
-                          {f}
-                       </li>
-                     ))}
-                  </ul>
-                  <Button variant="athlenia" className="w-full justify-center">Get Started</Button>
-               </div>
-             ))}
-          </div>
+                </div>
+              </div>
 
-          {/* Comparison Table Placeholder */}
-          <div className="mt-40 pt-24 border-t border-black/10">
-             <h2 className="text-4xl font-bold uppercase mb-16 text-center">Compare Features</h2>
-             <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                   <thead>
-                      <tr className="border-b border-black/10">
-                         <th className="py-8 font-bold text-grey uppercase text-[10px] tracking-widest">Feature</th>
-                         <th className="py-8 font-bold uppercase">Elite</th>
-                         <th className="py-8 font-bold uppercase">Pro</th>
-                         <th className="py-8 font-bold uppercase">Team</th>
-                      </tr>
-                   </thead>
-                   <tbody className="font-bold text-sm">
-                      {[
-                        'Biometric Tracking', 'Custom Meal Plans', 'Priority Booking', 'Lounge Access'
-                      ].map(feature => (
-                        <tr key={feature} className="border-b border-black/5">
-                           <td className="py-8 text-grey">{feature}</td>
-                           <td className="py-8">✓</td>
-                           <td className="py-8">✓</td>
-                           <td className="py-8">✓</td>
-                        </tr>
-                      ))}
-                   </tbody>
-                </table>
-             </div>
+              <div className="plan-features-v2">
+                {plan.features.map((feature, fIndex) => (
+                  <div key={fIndex} className="feature-item-v2">
+                    <div className="check-box-v2"><Check size={14} /></div>
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <Link to="/contact" className={`plan-btn-v2 ${plan.popular ? 'primary' : 'secondary'}`} style={{ textDecoration: 'none' }}>
+                Get started <ArrowUpRight size={18} />
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Comparison Table Section */}
+      <section className="comparison-section section">
+        <div className="container">
+          <h2 className="h2 comparison-title">Compare our coaching plans</h2>
+          <div className="table-wrapper-v2">
+            <table className="comparison-table-v2">
+              <thead>
+                <tr>
+                  <th>Features</th>
+                  <th>Starter</th>
+                  <th>Standard</th>
+                  <th>Premium</th>
+                  <th>Customize</th>
+                </tr>
+              </thead>
+              <tbody>
+                {featuresList.map((feature, i) => (
+                  <tr key={i}>
+                    <td className="feat-name">{feature}</td>
+                    <td>{plans[0].features.includes(feature) ? <Check size={20} className="check-lime" /> : <span className="dash">-</span>}</td>
+                    <td>{plans[1].features.includes(feature) ? <Check size={20} className="check-lime" /> : <span className="dash">-</span>}</td>
+                    <td>{plans[2].features.includes(feature) ? <Check size={20} className="check-lime" /> : <span className="dash">-</span>}</td>
+                    <td>{plans[3].features.includes(feature) ? <Check size={20} className="check-lime" /> : <span className="dash">-</span>}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </Container>
-      </main>
-      <Footer />
-    </>
-  )
-}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Pricing;
