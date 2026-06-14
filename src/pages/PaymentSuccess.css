@@ -1,0 +1,75 @@
+.payment-success-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 4rem 1rem;
+}
+
+.payment-success-card {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 4rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add a beautiful lime gradient top border to match the theme */
+.payment-success-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--color-lime), #84cc16);
+}
+
+.success-icon-wrapper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(206, 255, 101, 0.2); /* var(--color-lime) with opacity */
+  margin-bottom: 2rem;
+}
+
+.success-icon {
+  width: 54px;
+  height: 54px;
+  color: var(--color-black); /* Make it bold with black or another deep color */
+}
+
+.success-title {
+  margin-bottom: 1rem;
+}
+
+.success-message {
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .payment-success-card {
+    padding: 3rem 1.5rem;
+  }
+  
+  .success-icon-wrapper {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .success-icon {
+    width: 40px;
+    height: 40px;
+  }
+}

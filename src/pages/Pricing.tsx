@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Check, ArrowUpRight } from 'lucide-react';
+import { Check, ArrowUpRight, Loader } from 'lucide-react';
+import axios from 'axios';
+import { useSiteContent } from '../context/SiteContentContext';
+import { useClientAuth } from '../context/ClientAuthContext';
 import './Pricing.css';
 
-const plans = [
+const defaultPlans = [
   {
     name: "Starter Plan",
     monthlyPrice: 199,
@@ -40,13 +43,64 @@ const plans = [
   }
 ];
 
-const featuresList = [
+const defaultFeaturesList = [
   "Intro session", "Weekly coaching", "Monthly coaching", "Group coaching", 
   "Performance assessment", "Video analysis", "Custom training plan", "Nutrition plan", "Dedicated 1-on-1 support"
 ];
 
 const Pricing = () => {
+  const { getContent } = useSiteContent();
+  const { user, token } = useClientAuth();
+  const navigate = useNavigate();
   const [isYearly, setIsYearly] = useState(false);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+
+  const handlePurchase = async (plan: any) => {
+    if (plan.monthlyPrice === 'Custom') {
+      navigate('/contact');
+      return;
+    }
+    
+    if (!user || !token) {
+      alert("Please log in to purchase a plan.");
+      navigate('/login');
+      return;
+    }
+
+    setLoadingPlan(plan.name);
+    try {
+      const amount = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
+      const res = await axios.post('http://localhost:8000/api/payments/issue-link', {
+        amount: amount,
+        currency: 'AED',
+        description: `GTCoaching - ${plan.name} (${isYearly ? 'Yearly' : 'Monthly'})`,
+        plan_name: plan.name
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      // Redirect to the payment gateway
+      window.location.href = res.data.payment_url;
+    } catch (err) {
+      console.error(err);
+      alert("Error initiating payment. Please try again.");
+      setLoadingPlan(null);
+    }
+  };
+
+  let plans = defaultPlans;
+  try {
+    plans = JSON.parse(getContent('pricing_plans', JSON.stringify(defaultPlans)));
+  } catch (e) {
+    console.error("Failed to parse pricing plans", e);
+  }
+
+  let featuresList = defaultFeaturesList;
+  try {
+    featuresList = JSON.parse(getContent('pricing_features', JSON.stringify(defaultFeaturesList)));
+  } catch (e) {
+    console.error("Failed to parse pricing features", e);
+  }
 
   return (
     <div className="pricing-v2">
@@ -103,9 +157,15 @@ const Pricing = () => {
                 ))}
               </div>
 
-              <Link to="/contact" className={`plan-btn-v2 ${plan.popular ? 'primary' : 'secondary'}`} style={{ textDecoration: 'none' }}>
-                Get started <ArrowUpRight size={18} />
-              </Link>
+              <button 
+                onClick={() => handlePurchase(plan)}
+                className={`plan-btn-v2 ${plan.popular ? 'primary' : 'secondary'}`} 
+                style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: '1rem', fontWeight: 600 }}
+                disabled={loadingPlan === plan.name}
+              >
+                {loadingPlan === plan.name ? 'Processing...' : (plan.monthlyPrice === 'Custom' ? 'Contact Us' : 'Get started')} 
+                {!loadingPlan && <ArrowUpRight size={18} />}
+              </button>
             </motion.div>
           ))}
         </div>
@@ -114,7 +174,7 @@ const Pricing = () => {
       {/* Comparison Table Section */}
       <section className="comparison-section section">
         <div className="container">
-          <h2 className="h2 comparison-title">Compare our coaching plans</h2>
+          <h2 className="h2 comparison-title">{getContent('pricing_compare_title', 'Compare our coaching plans')}</h2>
           <div className="table-wrapper-v2">
             <table className="comparison-table-v2">
               <thead>

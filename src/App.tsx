@@ -17,6 +17,7 @@ import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
 
 import Programs from './pages/Programs';
+import PaymentSuccess from './pages/PaymentSuccess';
 
 import AdminLayout from './pages/admin/AdminLayout';
 import Login from './pages/admin/Login';
@@ -25,10 +26,19 @@ import ContentManager from './pages/admin/ContentManager';
 import ImageManager from './pages/admin/ImageManager';
 import PaymentManager from './pages/admin/PaymentManager';
 
+import { ClientAuthProvider } from './context/ClientAuthContext';
+import ClientLayout from './layouts/ClientLayout';
+import ClientLogin from './pages/client/ClientLogin';
+import Signup from './pages/client/Signup';
+import ClientDashboard from './pages/client/Dashboard';
+import ProfileSettings from './pages/client/ProfileSettings';
+import PurchasedContent from './pages/client/PurchasedContent';
+
 function App() {
   return (
-    <Router>
-      <ScrollToTop />
+    <ClientAuthProvider>
+      <Router>
+        <ScrollToTop />
       <Routes>
         {/* Admin Routes */}
         <Route path="/admin/login" element={<Login />} />
@@ -37,6 +47,16 @@ function App() {
           <Route path="content" element={<ContentManager />} />
           <Route path="images" element={<ImageManager />} />
           <Route path="payments" element={<PaymentManager />} />
+        </Route>
+
+        {/* Client Routes */}
+        <Route path="/login" element={<ClientLogin />} />
+        <Route path="/signup" element={<Signup />} />
+        
+        <Route path="/dashboard" element={<ClientLayout />}>
+          <Route index element={<ClientDashboard />} />
+          <Route path="profile" element={<ProfileSettings />} />
+          <Route path="purchases" element={<PurchasedContent />} />
         </Route>
 
         {/* Public Routes */}
@@ -56,6 +76,7 @@ function App() {
                 <Route path="/blog-posts/:id" element={<BlogPost />} />
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/payment/success" element={<PaymentSuccess />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
@@ -64,6 +85,7 @@ function App() {
         } />
       </Routes>
     </Router>
+    </ClientAuthProvider>
   );
 }
 

@@ -82,17 +82,17 @@ const ImageManager = () => {
       <div className="admin-grid">
         {images.map((img, idx) => (
           <div key={idx} className="admin-card" style={{ padding: '1rem' }}>
-            <div style={{ height: '150px', backgroundColor: '#0f172a', borderRadius: '0.5rem', marginBottom: '1rem', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ height: '150px', backgroundColor: 'var(--color-off-white)', borderRadius: 'var(--radius-sm)', marginBottom: '1rem', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <img src={img.url} alt={img.filename} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
             </div>
-            <div style={{ fontSize: '0.875rem', color: '#cbd5e1', marginBottom: '1rem', wordBreak: 'break-all' }}>
+            <div style={{ fontSize: '0.875rem', color: 'var(--color-medium-grey)', marginBottom: '1rem', wordBreak: 'break-all' }}>
               {img.filename}
             </div>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <button className="admin-btn" style={{ flex: 1, padding: '0.5rem', fontSize: '0.875rem', background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8' }} onClick={() => { navigator.clipboard.writeText(img.url); alert('URL copied!'); }}>
+              <button className="admin-btn admin-btn-secondary" style={{ flex: 1, padding: '0.5rem', fontSize: '0.875rem' }} onClick={() => { navigator.clipboard.writeText(img.url); alert('URL copied!'); }}>
                 <Copy size={16} /> Copy URL
               </button>
-              <button className="admin-btn" style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '0.5rem' }} onClick={() => handleDelete(img.filename)}>
+              <button className="admin-btn admin-btn-danger" style={{ padding: '0.5rem' }} onClick={() => handleDelete(img.filename)}>
                 <Trash2 size={16} />
               </button>
             </div>

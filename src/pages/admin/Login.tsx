@@ -36,14 +36,14 @@ const Login = () => {
         style={{ width: '400px', maxWidth: '90%' }}
       >
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-          <div style={{ display: 'inline-flex', padding: '1rem', background: 'rgba(56, 189, 248, 0.1)', borderRadius: '50%', marginBottom: '1rem', color: '#38bdf8' }}>
+          <div style={{ display: 'inline-flex', padding: '1rem', background: 'var(--color-lime)', borderRadius: '50%', marginBottom: '1rem', color: 'var(--color-black)' }}>
             <Lock size={32} />
           </div>
           <h2 className="admin-page-title" style={{ marginBottom: '0.5rem' }}>Admin Access</h2>
           <p style={{ color: '#94a3b8' }}>Login to manage GTCoaching</p>
         </div>
 
-        {error && <div style={{ color: '#ef4444', marginBottom: '1rem', textAlign: 'center', background: 'rgba(239, 68, 68, 0.1)', padding: '0.5rem', borderRadius: '0.5rem' }}>{error}</div>}
+        {error && <div style={{ color: 'white', marginBottom: '1rem', textAlign: 'center', background: '#ff4d4f', padding: '0.5rem', borderRadius: 'var(--radius-sm)' }}>{error}</div>}
 
         <form onSubmit={handleLogin}>
           <div style={{ marginBottom: '1rem' }}>

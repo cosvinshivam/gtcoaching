@@ -1,17 +1,36 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Zap, Shield, Target, TrendingUp, Users, CheckCircle } from 'lucide-react';
+import { useSiteContent } from '../context/SiteContentContext';
 import './Coaching.css';
 import coachingHeroImg from '../assets/coaching-hero.png';
 
 const Coaching = () => {
+  const { getContent } = useSiteContent();
+
+  const defaultSteps = [
+    { title: "Team coaching", desc: "Collaborative strategies for group performance." },
+    { title: "Strategies", desc: "In-depth tactical planning for game success." }
+  ];
+  let steps = defaultSteps;
+  try { steps = JSON.parse(getContent('coaching_steps', JSON.stringify(defaultSteps))); } catch(e) {}
+
+  const defaultFeatures = [
+    { title: "Expert guidance", desc: "Coaching from world-class elite level professionals." },
+    { title: "Customized plans", desc: "Tailored strategies for your unique athletic profile." },
+    { title: "Confidence & strength", desc: "Building the mental and physical foundation for success." },
+    { title: "Progress tracking", desc: "Data-driven insights to monitor every step of your journey." }
+  ];
+  let ctaFeatures = defaultFeatures;
+  try { ctaFeatures = JSON.parse(getContent('coaching_cta_features', JSON.stringify(defaultFeatures))); } catch(e) {}
+
   return (
     <div className="coaching-v2">
       {/* Hero Section */}
       <section className="coaching-hero-v2">
         <div className="container">
           <div className="coaching-hero-image-v2">
-            <img src={coachingHeroImg} alt="Coaching Action" />
+            <img src={getContent('coaching_hero_img', coachingHeroImg)} alt="Coaching Action" />
           </div>
         </div>
       </section>
@@ -21,16 +40,16 @@ const Coaching = () => {
         <div className="container coaching-stats-grid-v2">
           <div className="stats-badge-circle">
             <div className="circle-inner">
-              <span className="val">24</span>
+              <span className="val">{getContent('coaching_exp_years', '24')}</span>
               <span className="plus-badge">+</span>
             </div>
-            <p>Years of experience</p>
+            <p>{getContent('coaching_exp_label', 'Years of experience')}</p>
           </div>
           <div className="stats-text-content-v2">
-            <span className="badge-small">Transform your life</span>
-            <h2 className="h2">Building champions for over 24 years</h2>
+            <span className="badge-small">{getContent('coaching_badge', 'Transform your life')}</span>
+            <h2 className="h2">{getContent('coaching_title', 'Building champions for over 24 years')}</h2>
             <p className="p-large">
-              Our coaching philosophy is built on decades of experience working with elite athletes across multiple disciplines. We don't just teach the game; we master the performance mindset.
+              {getContent('coaching_desc', "Our coaching philosophy is built on decades of experience working with elite athletes across multiple disciplines. We don't just teach the game; we master the performance mindset.")}
             </p>
           </div>
         </div>
@@ -40,23 +59,18 @@ const Coaching = () => {
       <section className="expert-support-section section">
         <div className="container support-grid-v2">
           <div className="support-left">
-            <span className="badge-small">Our Expertise</span>
-            <h2 className="h2">Expert coaching support</h2>
+            <span className="badge-small">{getContent('coaching_support_badge', 'Our Expertise')}</span>
+            <h2 className="h2">{getContent('coaching_support_title', 'Expert coaching support')}</h2>
             <div className="numbered-steps-v2">
-              <div className="step-item-v2">
-                <span className="step-num">01</span>
-                <div className="step-info">
-                  <h3>Team coaching</h3>
-                  <p>Collaborative strategies for group performance.</p>
+              {steps.map((step, i) => (
+                <div key={i} className="step-item-v2">
+                  <span className="step-num">0{i+1}</span>
+                  <div className="step-info">
+                    <h3>{step.title}</h3>
+                    <p>{step.desc}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="step-item-v2">
-                <span className="step-num">02</span>
-                <div className="step-info">
-                  <h3>Strategies</h3>
-                  <p>In-depth tactical planning for game success.</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
           <div className="support-right-grid">
@@ -80,15 +94,10 @@ const Coaching = () => {
       <section className="coaching-cta-grid section">
         <div className="container">
           <div className="cta-grid-header">
-            <h2 className="h2">Unlock your full athletic potential with proven coaching methods</h2>
+            <h2 className="h2">{getContent('coaching_cta_title', 'Unlock your full athletic potential with proven coaching methods')}</h2>
           </div>
           <div className="cta-features-v2">
-            {[
-              { title: "Expert guidance", desc: "Coaching from world-class elite level professionals." },
-              { title: "Customized plans", desc: "Tailored strategies for your unique athletic profile." },
-              { title: "Confidence & strength", desc: "Building the mental and physical foundation for success." },
-              { title: "Progress tracking", desc: "Data-driven insights to monitor every step of your journey." }
-            ].map((f, i) => (
+            {ctaFeatures.map((f, i) => (
               <div key={i} className="cta-feat-card-v2">
                 <CheckCircle size={24} className="icon-lime" />
                 <h3>{f.title}</h3>

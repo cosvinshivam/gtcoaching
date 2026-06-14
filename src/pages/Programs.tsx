@@ -2,9 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Heart, Activity, Coffee, Utensils, Target, Users, ArrowUpRight, Bike } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useSiteContent } from '../context/SiteContentContext';
 import './Programs.css';
 
-const programs = [
+const defaultPrograms = [
   {
     title: "Personal Health",
     description: "A holistic approach to optimizing your daily health, sleep, and overall wellness.",
@@ -64,15 +65,28 @@ const programs = [
 ];
 
 const Programs = () => {
+  const { getContent } = useSiteContent();
+
+  let programsList = defaultPrograms;
+  try {
+    const parsed = JSON.parse(getContent('programs_list', JSON.stringify(defaultPrograms.map(p => ({title: p.title, description: p.description, image: p.image})))));
+    programsList = defaultPrograms.map((p, i) => ({
+      ...p,
+      title: parsed[i]?.title || p.title,
+      description: parsed[i]?.description || p.description,
+      image: parsed[i]?.image || p.image
+    }));
+  } catch(e) {}
+
   return (
     <div className="programs-page">
       {/* Hero Section */}
       <section className="programs-hero">
         <div className="container">
           <div className="programs-hero-content">
-            <span className="badge-lime">Our Courses</span>
-            <h1 className="h1">Explore our programs</h1>
-            <p className="p-large">From fitness and recovery to personalized meal plans, discover the right course to elevate your performance.</p>
+            <span className="badge-lime">{getContent('programs_badge', 'Our Courses')}</span>
+            <h1 className="h1">{getContent('programs_title', 'Explore our programs')}</h1>
+            <p className="p-large">{getContent('programs_desc', 'From fitness and recovery to personalized meal plans, discover the right course to elevate your performance.')}</p>
           </div>
         </div>
       </section>
@@ -81,7 +95,7 @@ const Programs = () => {
       <section className="programs-grid-section section">
         <div className="container">
           <div className="programs-grid">
-            {programs.map((program, index) => (
+            {programsList.map((program, index) => (
               <motion.div 
                 key={index}
                 className="program-card"
@@ -113,8 +127,8 @@ const Programs = () => {
       <section className="programs-cta section">
         <div className="container">
           <div className="cta-box-v2">
-            <h2 className="h2">Ready to transform your life?</h2>
-            <p className="p-large">Join our expert coaches and start your personalized journey today.</p>
+            <h2 className="h2">{getContent('programs_cta_title', 'Ready to transform your life?')}</h2>
+            <p className="p-large">{getContent('programs_cta_desc', 'Join our expert coaches and start your personalized journey today.')}</p>
             <div className="cta-actions-v2">
               <Link to="/contact" className="button-primary" style={{ textDecoration: 'none' }}>Get started</Link>
               <Link to="/pricing" className="button-secondary" style={{ textDecoration: 'none' }}>View pricing</Link>

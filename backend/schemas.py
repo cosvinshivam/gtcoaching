@@ -11,12 +11,36 @@ class TokenData(BaseModel):
 
 class UserBase(BaseModel):
     username: str
+    email: Optional[str] = None
+    full_name: Optional[str] = None
+    phone: Optional[str] = None
+    bio: Optional[str] = None
 
 class UserCreate(UserBase):
     password: str
 
+class UserUpdate(BaseModel):
+    full_name: Optional[str] = None
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    bio: Optional[str] = None
+
 class UserResponse(UserBase):
     id: int
+    is_admin: bool
+    class Config:
+        from_attributes = True
+
+class PurchaseBase(BaseModel):
+    plan_name: str
+    amount: float
+    currency: str = "AED"
+
+class PurchaseResponse(PurchaseBase):
+    id: int
+    user_id: int
+    status: str
+    purchased_at: datetime.datetime
     class Config:
         from_attributes = True
 
@@ -34,6 +58,7 @@ class SiteContentResponse(SiteContentBase):
         from_attributes = True
 
 class PaymentRequest(BaseModel):
+    plan_name: str
     amount: float
     currency: str = "AED"
     description: str = "GTCoaching Payment"

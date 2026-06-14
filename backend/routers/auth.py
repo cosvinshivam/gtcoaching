@@ -44,6 +44,42 @@ def login_for_access_token(db: Session = Depends(get_db), form_data: OAuth2Passw
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
+@router.post("/signup", response_model=schemas.UserResponse)
+def create_user(user_in: schemas.UserCreate, db: Session = Depends(get_db)):
+    existing_user = db.query(models.User).filter((models.User.username == user_in.username) | (models.User.email == user_in.email)).first()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Username or email already registered")
+    
+    hashed_pwd = auth_utils.get_password_hash(user_in.password)
+    new_user = models.User(
+        username=user_in.username,
+        email=user_in.email,
+        full_name=user_in.full_name,
+        phone=user_in.phone,
+        bio=user_in.bio,
+        hashed_password=hashed_pwd,
+        is_admin=False
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
 @router.get("/me", response_model=schemas.UserResponse)
 def read_users_me(current_user: models.User = Depends(get_current_user)):
+    return current_user
+
+@router.put("/profile", response_model=schemas.UserResponse)
+def update_profile(profile_data: schemas.UserUpdate, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if profile_data.full_name is not None:
+        current_user.full_name = profile_data.full_name
+    if profile_data.email is not None:
+        current_user.email = profile_data.email
+    if profile_data.phone is not None:
+        current_user.phone = profile_data.phone
+    if profile_data.bio is not None:
+        current_user.bio = profile_data.bio
+        
+    db.commit()
+    db.refresh(current_user)
     return current_user
