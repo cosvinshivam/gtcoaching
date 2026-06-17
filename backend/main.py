@@ -44,3 +44,25 @@ app.include_router(payments.router, prefix="/api/payments", tags=["payments"])
 @app.get("/")
 def read_root():
     return {"message": "Welcome to GTCoaching API"}
+
+from sqlalchemy import text
+@app.get("/migrate")
+def run_migrations():
+    from database import engine
+    with engine.begin() as con:
+        queries = [
+            "ALTER TABLE users ADD COLUMN email VARCHAR(100) UNIQUE;",
+            "ALTER TABLE users ADD COLUMN full_name VARCHAR(100);",
+            "ALTER TABLE users ADD COLUMN phone VARCHAR(20);",
+            "ALTER TABLE users ADD COLUMN bio TEXT;",
+            "ALTER TABLE users ADD COLUMN is_admin BOOLEAN DEFAULT 0;",
+            "UPDATE users SET is_admin = 1 WHERE username = 'admin';"
+        ]
+        results = []
+        for q in queries:
+            try:
+                con.execute(text(q))
+                results.append(f"Executed: {q}")
+            except Exception as e:
+                results.append(f"Error on {q}: {e}")
+        return {"results": results}
