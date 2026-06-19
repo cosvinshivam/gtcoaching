@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { User, Save } from 'lucide-react';
+import { User, Save, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ const AdminProfile = () => {
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -100,13 +101,23 @@ const AdminProfile = () => {
 
           <div style={{ marginBottom: '1.5rem' }}>
             <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--color-black)', fontWeight: '600' }}>New Password (leave blank to keep current)</label>
-            <input 
-              type="password" 
-              className="admin-input" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-            />
+            <div style={{ position: 'relative' }}>
+              <input 
+                type={showPassword ? "text" : "password"} 
+                className="admin-input" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{ width: '100%', paddingRight: '2.5rem' }}
+              />
+              <button 
+                type="button" 
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center', padding: 0 }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <div style={{ marginBottom: '1.5rem' }}>

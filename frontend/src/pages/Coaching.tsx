@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, Zap, Shield, Target, TrendingUp, Users, CheckCircle } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
 import './Coaching.css';
-import coachingHeroImg from '../assets/coaching-hero.png';
+import { ASSETS_URL } from '../config';
 
 const Coaching = () => {
   const { getContent } = useSiteContent();
@@ -30,7 +30,7 @@ const Coaching = () => {
       <section className="coaching-hero-v2">
         <div className="container">
           <div className="coaching-hero-image-v2">
-            <img src={getContent('coaching_hero_img', coachingHeroImg)} alt="Coaching Action" />
+            <img src={getContent('coaching_hero_img', `${ASSETS_URL}/coaching-hero.png`)} alt="Coaching Action" />
           </div>
         </div>
       </section>

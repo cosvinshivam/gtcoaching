@@ -6,6 +6,9 @@ import schemas
 from routers.auth import get_current_user
 from database import get_db
 import models
+from auth_utils import get_password_hash
+import random
+import string
 
 router = APIRouter()
 
@@ -31,13 +34,40 @@ def issue_payment_link(
     if payment_req.amount < 2:
         raise HTTPException(status_code=400, detail="Minimum payment amount is 2 AED")
 
-    # Record pending purchase
+    # Check if client already exists
+    client_user = db.query(models.User).filter(models.User.email == payment_req.client_email).first()
+    if not client_user:
+        # Create new client user
+        temp_password = "Welcome123!" # Or generate a random one
+        hashed_pwd = get_password_hash(temp_password)
+        
+        # Generate a username from the email
+        base_username = payment_req.client_email.split("@")[0]
+        username = base_username
+        counter = 1
+        while db.query(models.User).filter(models.User.username == username).first():
+            username = f"{base_username}{counter}"
+            counter += 1
+            
+        client_user = models.User(
+            username=username,
+            email=payment_req.client_email,
+            full_name=payment_req.client_name,
+            phone=payment_req.client_phone,
+            hashed_password=hashed_pwd,
+            is_admin=False
+        )
+        db.add(client_user)
+        db.commit()
+        db.refresh(client_user)
+
+    # Record pending purchase for the client
     new_purchase = models.Purchase(
-        user_id=current_user.id,
+        user_id=client_user.id,
         plan_name=payment_req.plan_name,
         amount=payment_req.amount,
         currency=payment_req.currency,
-        status="pending"
+        status="Done"
     )
     db.add(new_purchase)
     db.commit()

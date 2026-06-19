@@ -21,7 +21,11 @@ import PaymentSuccess from './pages/PaymentSuccess';
 
 import AdminLayout from './pages/admin/AdminLayout';
 import Login from './pages/admin/Login';
+import Scorecard from './pages/Scorecard';
+import BmiCalculator from './pages/BmiCalculator';
+import AdminLeads from './pages/admin/AdminLeads';
 import Dashboard from './pages/admin/Dashboard';
+import ClientsList from './pages/admin/ClientsList';
 import ContentManager from './pages/admin/ContentManager';
 import ImageManager from './pages/admin/ImageManager';
 import PaymentManager from './pages/admin/PaymentManager';
@@ -51,6 +55,8 @@ function App() {
           <Route path="content" element={<ContentManager />} />
           <Route path="images" element={<ImageManager />} />
           <Route path="payments" element={<PaymentManager />} />
+          <Route path="clients" element={<ClientsList />} />
+          <Route path="leads" element={<AdminLeads />} />
           <Route path="profile" element={<AdminProfile />} />
         </Route>
 
@@ -72,6 +78,8 @@ function App() {
             <main>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/scorecard" element={<Scorecard />} />
+                <Route path="/bmi-calculator" element={<BmiCalculator />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/programs" element={<Programs />} />
                 <Route path="/coaching" element={<Coaching />} />

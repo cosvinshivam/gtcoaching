@@ -64,3 +64,38 @@ class PaymentRequest(BaseModel):
     amount: float
     currency: str = "AED"
     description: str = "GTCoaching Payment"
+    client_name: str
+    client_email: str
+    client_phone: Optional[str] = None
+
+class ScorecardCreate(BaseModel):
+    name: str
+    email: str
+    phone: Optional[str] = None
+    q1_score: int
+    q2_score: int
+    q3_score: int
+    q4_score: int
+    q5_score: int
+    q6_score: int
+    q7_score: int
+    q8_score: int
+    q9_score: int
+    q10_score: int
+    q11_score: int
+    q12_score: int
+    q13_score: int
+    q14_score: int
+    q15_score: int
+
+class ScorecardResponse(ScorecardCreate):
+    id: int
+    pillar_1_score: int
+    pillar_2_score: int
+    pillar_3_score: int
+    pillar_4_score: int
+    pillar_5_score: int
+    total_score: int
+    submitted_at: datetime.datetime
+    class Config:
+        from_attributes = True

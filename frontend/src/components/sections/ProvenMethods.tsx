@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
 import './ProvenMethods.css';
-import archerImg from '../../assets/archer.png';
+import { ASSETS_URL } from '../../config';
 
 const methods = [
   {
@@ -77,7 +77,7 @@ const ProvenMethods = () => {
           transition={{ duration: 0.8 }}
         >
           <div className="archer-wrapper">
-            <img src={archerImg} alt="Archer" />
+            <img src={`${ASSETS_URL}/personal-training.png`} alt="Personal Training" />
           </div>
         </motion.div>
       </div>

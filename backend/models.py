@@ -30,3 +30,43 @@ class SiteContent(Base):
     section_key = Column(String(100), unique=True, index=True)
     content_value = Column(Text)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+
+class LeadScorecard(Base):
+    __tablename__ = "lead_scorecards"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100))
+    email = Column(String(100))
+    phone = Column(String(20), nullable=True)
+    
+    # Pillar 1
+    q1_score = Column(Integer)
+    q2_score = Column(Integer)
+    q3_score = Column(Integer)
+    pillar_1_score = Column(Integer)
+    
+    # Pillar 2
+    q4_score = Column(Integer)
+    q5_score = Column(Integer)
+    q6_score = Column(Integer)
+    pillar_2_score = Column(Integer)
+    
+    # Pillar 3
+    q7_score = Column(Integer)
+    q8_score = Column(Integer)
+    q9_score = Column(Integer)
+    pillar_3_score = Column(Integer)
+    
+    # Pillar 4
+    q10_score = Column(Integer)
+    q11_score = Column(Integer)
+    q12_score = Column(Integer)
+    pillar_4_score = Column(Integer)
+    
+    # Pillar 5
+    q13_score = Column(Integer)
+    q14_score = Column(Integer)
+    q15_score = Column(Integer)
+    pillar_5_score = Column(Integer)
+    
+    total_score = Column(Integer)
+    submitted_at = Column(DateTime, default=datetime.datetime.utcnow)

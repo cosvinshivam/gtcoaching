@@ -92,3 +92,41 @@ def update_profile(profile_data: schemas.UserUpdate, current_user: models.User =
     db.commit()
     db.refresh(current_user)
     return current_user
+
+@router.get("/clients")
+def get_clients(
+    page: int = 1,
+    limit: int = 10,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    offset = (page - 1) * limit
+    total = db.query(models.User).filter(models.User.is_admin == False).count()
+    clients = db.query(models.User).filter(models.User.is_admin == False).order_by(models.User.id.desc()).offset(offset).limit(limit).all()
+    
+    client_list = []
+    for client in clients:
+        # Get their most recent purchase
+        last_purchase = db.query(models.Purchase).filter(models.Purchase.user_id == client.id).order_by(models.Purchase.purchased_at.desc()).first()
+        client_data = {
+            "id": client.id,
+            "username": client.username,
+            "email": client.email,
+            "full_name": client.full_name,
+            "phone": client.phone,
+            "plan_name": last_purchase.plan_name if last_purchase else "None",
+            "payment_status": last_purchase.status if last_purchase else "N/A",
+            "payment_date": last_purchase.purchased_at.isoformat() if last_purchase and last_purchase.purchased_at else None
+        }
+        client_list.append(client_data)
+        
+    return {
+        "total": total,
+        "page": page,
+        "limit": limit,
+        "clients": client_list
+    }
+

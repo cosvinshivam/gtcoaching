@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base, SessionLocal
 import models
-from routers import auth, content, images, payments, stats
+from routers import auth, content, images, payments, stats, scorecards
 from auth_utils import get_password_hash
 
 # Create tables
@@ -41,6 +41,7 @@ app.include_router(content.router, prefix="/api/content", tags=["content"])
 app.include_router(images.router, prefix="/api/images", tags=["images"])
 app.include_router(payments.router, prefix="/api/payments", tags=["payments"])
 app.include_router(stats.router, prefix="/api/stats", tags=["stats"])
+app.include_router(scorecards.router, prefix="/api/scorecards", tags=["scorecards"])
 
 @app.get("/")
 def read_root():

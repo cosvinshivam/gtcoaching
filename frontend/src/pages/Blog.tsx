@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Calendar, ArrowUpRight } from 'lucide-react';
 import './Blog.css';
-import blogHeroImg from '../assets/blog-hero.png';
+import { ASSETS_URL } from '../config';
 
 const posts = [
   {
@@ -52,7 +52,7 @@ const Blog = () => {
         <div className="container">
 
           <div className="blog-hero-image-v2">
-            <img src={blogHeroImg} alt="Blog Hero" />
+            <img src={`${ASSETS_URL}/blog-hero.png`} alt="Blog Hero" />
           </div>
         </div>
       </section>

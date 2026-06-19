@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
 import './Contact.css';
-import contactHeroImg from '../assets/contact-hero.png';
+import { ASSETS_URL } from '../config';
 
 const Contact = () => {
   return (
@@ -11,7 +11,7 @@ const Contact = () => {
       <section className="contact-hero-v2">
         <div className="container">
           <div className="contact-hero-image-v2">
-            <img src={contactHeroImg} alt="Coaches" />
+            <img src={`${ASSETS_URL}/contact-hero.png`} alt="Coaches" />
           </div>
         </div>
       </section>

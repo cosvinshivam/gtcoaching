@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { Eye, EyeOff } from 'lucide-react';
 import { useClientAuth } from '../../context/ClientAuthContext';
 
 const ClientLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const { login } = useClientAuth();
   const navigate = useNavigate();
@@ -51,13 +53,23 @@ const ClientLogin = () => {
           </div>
           <div>
             <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--color-medium-grey)', fontWeight: 600 }}>Password</label>
-            <input 
-              type="password" 
-              value={password} 
-              onChange={e => setPassword(e.target.value)} 
-              className="input-primary" 
-              required 
-            />
+            <div style={{ position: 'relative' }}>
+              <input 
+                type={showPassword ? "text" : "password"} 
+                value={password} 
+                onChange={e => setPassword(e.target.value)} 
+                className="input-primary" 
+                required 
+                style={{ width: '100%', paddingRight: '2.5rem' }}
+              />
+              <button 
+                type="button" 
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center', padding: 0 }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
           <button type="submit" className="button-primary" style={{ marginTop: '0.5rem', width: '100%', justifyContent: 'center' }}>Login</button>
         </form>

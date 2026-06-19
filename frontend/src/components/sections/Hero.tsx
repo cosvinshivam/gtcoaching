@@ -3,9 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { useSiteContent } from '../../context/SiteContentContext';
 import './Hero.css';
-import cyclistImg from '../../assets/hero-cyclist.png';
-import fieldAthleteImg from '../../assets/field-athlete.png';
-import coachImg from '../../assets/coach.png';
+import { ASSETS_URL } from '../../config';
 
 const Hero = () => {
   const { getContent } = useSiteContent();
@@ -46,7 +44,7 @@ const Hero = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <img src={getContent('hero_main_img', cyclistImg)} alt="Cyclist" className="hero-cyclist" />
+            <img src={getContent('hero_main_img', `${ASSETS_URL}/hero-bg-gym-modern.png`)} alt="Gym Background" className="hero-cyclist" />
           </motion.div>
 
           <motion.div 
@@ -57,10 +55,10 @@ const Hero = () => {
           >
             <div className="split-image">
               <div className="split-left">
-                <img src={getContent('hero_split_img_1', fieldAthleteImg)} alt="Field Athlete" />
+                <img src={getContent('hero_split_img_1', `${ASSETS_URL}/hero-split-1-gym-modern.png`)} alt="Athlete Workout" />
               </div>
               <div className="split-right">
-                <img src={getContent('hero_split_img_2', coachImg)} alt="Coach" />
+                <img src={getContent('hero_split_img_2', `${ASSETS_URL}/hero-split-2-gym-modern.png`)} alt="Gym Coach" />
               </div>
             </div>
             <div className="info-content">

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Plus, Minus, Target, Zap, Shield, Users, Mail } from 'lucide-react';
 import { useSiteContent } from '../context/SiteContentContext';
 import './About.css';
-import aboutHeroImg from '../assets/about-hero.png';
+import { ASSETS_URL } from '../config';
 
 const defaultStats = [
   { label: "Retention Rate", value: "99%" },
@@ -59,7 +59,7 @@ const About = () => {
         <div className="container">
 
           <div className="about-hero-image-v2">
-            <img src={getContent('about_hero_img', aboutHeroImg)} alt="GT Executive Coaching Hero" />
+            <img src={getContent('about_hero_img', `${ASSETS_URL}/about-hero-gym-modern.png`)} alt="GT Executive Coaching Hero" />
           </div>
         </div>
       </section>

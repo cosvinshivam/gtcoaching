@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { Lock } from 'lucide-react';
+import { Lock, Eye, EyeOff } from 'lucide-react';
 import '../../styles/admin.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -58,13 +59,23 @@ const Login = () => {
           </div>
           <div style={{ marginBottom: '2rem' }}>
             <label style={{ display: 'block', marginBottom: '0.5rem', color: '#cbd5e1', fontSize: '0.875rem' }}>Password</label>
-            <input 
-              type="password" 
-              className="admin-input" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-            />
+            <div style={{ position: 'relative' }}>
+              <input 
+                type={showPassword ? "text" : "password"} 
+                className="admin-input" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                required 
+                style={{ width: '100%', paddingRight: '2.5rem' }}
+              />
+              <button 
+                type="button" 
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b', display: 'flex', alignItems: 'center', padding: 0 }}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
           <button type="submit" className="admin-btn" style={{ width: '100%', justifyContent: 'center' }}>
             Sign In

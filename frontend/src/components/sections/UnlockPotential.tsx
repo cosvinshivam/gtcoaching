@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Target, Users } from 'lucide-react';
 import './UnlockPotential.css';
-import fieldGrassImg from '../../assets/field-grass.png';
+import { ASSETS_URL } from '../../config';
 
 const UnlockPotential = () => {
   return (
@@ -15,7 +15,7 @@ const UnlockPotential = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <img src={fieldGrassImg} alt="Sports Field" />
+          <img src={`${ASSETS_URL}/gym-workout.png`} alt="Modern Gym" />
         </motion.div>
 
         <motion.div 

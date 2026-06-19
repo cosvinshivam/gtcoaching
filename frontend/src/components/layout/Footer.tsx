@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Share2, Globe, Mail, MessageCircle } from 'lucide-react';
-import logoDark from '../../assets/logo-dark.jpg';
+import { ASSETS_URL } from '../../config';
 import './Footer.css';
 
 const Footer = () => {
@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="footer-col-about">
             <Link to="/" className="logo-v1">
               <div className="logo-img-wrapper">
-                <img src={logoDark} alt="GT EXECUTIVE COACHING" className="logo-img-footer" />
+                <img src={`${ASSETS_URL}/logo-dark.jpg`} alt="GT EXECUTIVE COACHING" className="logo-img-footer" />
               </div>
             </Link>
             <p className="footer-mission">
