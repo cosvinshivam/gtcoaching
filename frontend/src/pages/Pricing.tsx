@@ -62,8 +62,8 @@ const Pricing = () => {
     }
     
     if (!user || !token) {
-      alert("Please log in to purchase a plan.");
-      navigate('/login');
+      alert("Client registration is currently disabled. Please contact us to get started with a plan.");
+      navigate('/contact');
       return;
     }
 
@@ -190,10 +190,10 @@ const Pricing = () => {
                 {featuresList.map((feature, i) => (
                   <tr key={i}>
                     <td className="feat-name">{feature}</td>
-                    <td>{plans[0].features.includes(feature) ? <Check size={20} className="check-lime" /> : <span className="dash">-</span>}</td>
-                    <td>{plans[1].features.includes(feature) ? <Check size={20} className="check-lime" /> : <span className="dash">-</span>}</td>
-                    <td>{plans[2].features.includes(feature) ? <Check size={20} className="check-lime" /> : <span className="dash">-</span>}</td>
-                    <td>{plans[3].features.includes(feature) ? <Check size={20} className="check-lime" /> : <span className="dash">-</span>}</td>
+                    <td>{plans[0].features.includes(feature) ? <div className="check-lime"><Check size={14} /></div> : <span className="dash">-</span>}</td>
+                    <td>{plans[1].features.includes(feature) ? <div className="check-lime"><Check size={14} /></div> : <span className="dash">-</span>}</td>
+                    <td>{plans[2].features.includes(feature) ? <div className="check-lime"><Check size={14} /></div> : <span className="dash">-</span>}</td>
+                    <td>{plans[3].features.includes(feature) ? <div className="check-lime"><Check size={14} /></div> : <span className="dash">-</span>}</td>
                   </tr>
                 ))}
               </tbody>

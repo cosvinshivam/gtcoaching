@@ -25,6 +25,7 @@ import Dashboard from './pages/admin/Dashboard';
 import ContentManager from './pages/admin/ContentManager';
 import ImageManager from './pages/admin/ImageManager';
 import PaymentManager from './pages/admin/PaymentManager';
+import AdminProfile from './pages/admin/AdminProfile';
 
 import { ClientAuthProvider } from './context/ClientAuthContext';
 import ClientLayout from './layouts/ClientLayout';
@@ -34,9 +35,12 @@ import ClientDashboard from './pages/client/Dashboard';
 import ProfileSettings from './pages/client/ProfileSettings';
 import PurchasedContent from './pages/client/PurchasedContent';
 
+import { Toaster } from 'react-hot-toast';
+
 function App() {
   return (
     <ClientAuthProvider>
+      <Toaster position="top-center" reverseOrder={false} />
       <Router>
         <ScrollToTop />
       <Routes>
@@ -47,9 +51,10 @@ function App() {
           <Route path="content" element={<ContentManager />} />
           <Route path="images" element={<ImageManager />} />
           <Route path="payments" element={<PaymentManager />} />
+          <Route path="profile" element={<AdminProfile />} />
         </Route>
 
-        {/* Client Routes */}
+        {/* Client Routes (Currently disabled)
         <Route path="/login" element={<ClientLogin />} />
         <Route path="/signup" element={<Signup />} />
         
@@ -58,6 +63,7 @@ function App() {
           <Route path="profile" element={<ProfileSettings />} />
           <Route path="purchases" element={<PurchasedContent />} />
         </Route>
+        */}
 
         {/* Public Routes */}
         <Route path="/*" element={

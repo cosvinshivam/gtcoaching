@@ -240,7 +240,14 @@
 }
 
 .check-lime {
-  color: var(--color-lime);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--color-lime);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-black);
   margin: 0 auto;
 }
 

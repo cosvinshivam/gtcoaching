@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Link, Copy } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const PaymentManager = () => {
   const [amount, setAmount] = useState('');
@@ -16,13 +17,15 @@ const PaymentManager = () => {
     try {
       const token = localStorage.getItem('admin_token');
       const res = await axios.post('http://localhost:8000/api/payments/issue-link', 
-        { amount: parseFloat(amount), description, currency: 'AED' },
+        { plan_name: description || 'Custom Payment', amount: parseFloat(amount), description, currency: 'AED' },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setPaymentLink(res.data.payment_url);
-    } catch (e) {
+      toast.success('Payment link generated successfully!');
+    } catch (e: any) {
       console.error(e);
-      alert('Failed to generate payment link. Ensure Ziina API keys are configured.');
+      const errorMessage = e.response?.data?.detail || 'Failed to generate payment link. Ensure API is working.';
+      toast.error(typeof errorMessage === 'string' ? errorMessage : JSON.stringify(errorMessage));
     } finally {
       setLoading(false);
     }
@@ -71,7 +74,7 @@ const PaymentManager = () => {
             <h4 style={{ color: 'var(--color-black)', marginBottom: '0.5rem', fontWeight: '800' }}>Payment Link Generated Successfully!</h4>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
               <input type="text" readOnly value={paymentLink} className="admin-input" style={{ marginBottom: 0, flex: 1, background: 'var(--color-white)' }} />
-              <button className="admin-btn" onClick={() => { navigator.clipboard.writeText(paymentLink); alert('Copied!'); }}>
+              <button className="admin-btn" onClick={() => { navigator.clipboard.writeText(paymentLink); toast.success('Copied to clipboard!'); }}>
                 <Copy size={18} /> Copy
               </button>
             </div>

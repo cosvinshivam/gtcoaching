@@ -34,34 +34,34 @@ const defaultPrograms = [
     color: "#ffffff",
     image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=80&w=600"
   },
-  {
-    title: "Golf Coaching",
-    description: "Master your swing and improve your game strategy on the green.",
-    icon: <Target size={32} />,
-    color: "#e6ff00",
-    image: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    title: "Tennis Coaching",
-    description: "Refine your technique, footwork, and mental toughness on the court.",
-    icon: <Activity size={32} />,
-    color: "#ffffff",
-    image: "https://images.pexels.com/photos/1432039/pexels-photo-1432039.jpeg?auto=compress&cs=tinysrgb&w=600"
-  },
-  {
-    title: "Team Sports",
-    description: "Collaborative programs designed to strengthen teamwork and boost collective performance.",
-    icon: <Users size={32} />,
-    color: "#e6ff00",
-    image: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&q=80&w=600"
-  },
-  {
-    title: "Cycling",
-    description: "Build endurance, leg strength, and cardiovascular health with our structured cycling program.",
-    icon: <Bike size={32} />,
-    color: "#ffffff",
-    image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&q=80&w=600"
-  }
+  // {
+  //   title: "Golf Coaching",
+  //   description: "Master your swing and improve your game strategy on the green.",
+  //   icon: <Target size={32} />,
+  //   color: "#e6ff00",
+  //   image: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&q=80&w=600"
+  // },
+  // {
+  //   title: "Tennis Coaching",
+  //   description: "Refine your technique, footwork, and mental toughness on the court.",
+  //   icon: <Activity size={32} />,
+  //   color: "#ffffff",
+  //   image: "https://images.pexels.com/photos/1432039/pexels-photo-1432039.jpeg?auto=compress&cs=tinysrgb&w=600"
+  // },
+  // {
+  //   title: "Team Sports",
+  //   description: "Collaborative programs designed to strengthen teamwork and boost collective performance.",
+  //   icon: <Users size={32} />,
+  //   color: "#e6ff00",
+  //   image: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&q=80&w=600"
+  // },
+  // {
+  //   title: "Cycling",
+  //   description: "Build endurance, leg strength, and cardiovascular health with our structured cycling program.",
+  //   icon: <Bike size={32} />,
+  //   color: "#ffffff",
+  //   image: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&q=80&w=600"
+  // }
 ];
 
 const Programs = () => {

@@ -71,6 +71,15 @@ def read_users_me(current_user: models.User = Depends(get_current_user)):
 
 @router.put("/profile", response_model=schemas.UserResponse)
 def update_profile(profile_data: schemas.UserUpdate, current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    if profile_data.username is not None and profile_data.username != current_user.username:
+        existing_user = db.query(models.User).filter(models.User.username == profile_data.username).first()
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Username already taken")
+        current_user.username = profile_data.username
+
+    if profile_data.password:
+        current_user.hashed_password = auth_utils.get_password_hash(profile_data.password)
+
     if profile_data.full_name is not None:
         current_user.full_name = profile_data.full_name
     if profile_data.email is not None:

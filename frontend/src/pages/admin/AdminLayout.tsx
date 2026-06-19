@@ -1,10 +1,16 @@
 import React from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FileText, Image as ImageIcon, CreditCard, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, Image as ImageIcon, CreditCard, LogOut, User } from 'lucide-react';
 import '../../styles/admin.css';
 
 const AdminLayout = () => {
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (!localStorage.getItem('admin_token')) {
+      navigate('/admin/login');
+    }
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('admin_token');
@@ -33,6 +39,10 @@ const AdminLayout = () => {
           <NavLink to="/admin/payments" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
             <CreditCard size={20} />
             Payments (Ziina)
+          </NavLink>
+          <NavLink to="/admin/profile" className={({ isActive }) => `admin-nav-item ${isActive ? 'active' : ''}`}>
+            <User size={20} />
+            Profile Settings
           </NavLink>
         </nav>
 
