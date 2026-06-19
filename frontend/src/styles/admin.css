@@ -19,7 +19,7 @@
 }
 
 .admin-sidebar-header {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   margin-bottom: 2.5rem;
@@ -42,7 +42,7 @@
   color: var(--color-medium-grey);
   text-decoration: none;
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   transition: all 0.2s ease;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .admin-page-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   margin-bottom: 2rem;
@@ -87,7 +87,7 @@
 
 /* Dashboard Specific Stat Labels */
 .admin-card h3 {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: var(--color-medium-grey);
   font-weight: 500;
   margin-bottom: 0.5rem;
@@ -105,7 +105,7 @@
   transition: border-color 0.2s;
   margin-bottom: 1rem;
   font-family: var(--font-primary), 'Inter', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
 .admin-input:focus {
@@ -126,7 +126,7 @@
   justify-content: center;
   gap: 0.5rem;
   font-family: var(--font-primary), 'Inter', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
 .admin-btn:hover {
