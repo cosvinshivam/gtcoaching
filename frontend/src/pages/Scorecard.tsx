@@ -101,7 +101,7 @@ const Scorecard = () => {
         q13_score: scores[12], q14_score: scores[13], q15_score: scores[14],
       };
 
-      const res = await axios.post(`${API_URL}/api/scorecards/submit`, payload);
+      const res = await axios.post(`${API_URL}/scorecards/submit`, payload);
       setResultData(res.data);
       setStep(17);
       window.scrollTo({ top: 0, behavior: 'smooth' });

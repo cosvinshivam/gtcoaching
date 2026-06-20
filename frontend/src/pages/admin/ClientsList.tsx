@@ -44,7 +44,7 @@ const ClientsList = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('admin_token');
-      let url = `${API_URL}/api/auth/clients?page=${p}&limit=${limit}`;
+      let url = `${API_URL}/auth/clients?page=${p}&limit=${limit}`;
       if (search) url += `&search=${search}`;
       if (startDate) url += `&start_date=${startDate}`;
       if (endDate) url += `&end_date=${endDate}`;
@@ -75,7 +75,7 @@ const ClientsList = () => {
     setSaving(true);
     try {
       const token = localStorage.getItem('admin_token');
-      await axios.put(`${API_URL}/api/auth/clients/${editingClient.id}`, {
+      await axios.put(`${API_URL}/auth/clients/${editingClient.id}`, {
         full_name: editName,
         email: editEmail,
         phone: editPhone

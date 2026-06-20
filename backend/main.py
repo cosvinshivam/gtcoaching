@@ -8,12 +8,17 @@ from auth_utils import get_password_hash
 # Create tables
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="GTCoaching API")
+app = FastAPI(
+    title="GTCoaching API",
+    docs_url="/docs",
+    openapi_url="/openapi.json",
+    redoc_url="/redoc"
+)
 
 # Configure CORS for React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://gt-coaching.com"], # For production, restrict to frontend domain
+    allow_origins=["http://localhost:5173", "https://gt-coaching.com","https://gt-coaching.com/api"], # For production, restrict to frontend domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -36,12 +41,12 @@ def seed_admin():
 seed_admin()
 
 # Include routers
-app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
-app.include_router(content.router, prefix="/api/content", tags=["content"])
-app.include_router(images.router, prefix="/api/images", tags=["images"])
-app.include_router(payments.router, prefix="/api/payments", tags=["payments"])
-app.include_router(stats.router, prefix="/api/stats", tags=["stats"])
-app.include_router(scorecards.router, prefix="/api/scorecards", tags=["scorecards"])
+app.include_router(auth.router, prefix="/auth", tags=["auth"])
+app.include_router(content.router, prefix="/content", tags=["content"])
+app.include_router(images.router, prefix="/images", tags=["images"])
+app.include_router(payments.router, prefix="/payments", tags=["payments"])
+app.include_router(stats.router, prefix="/stats", tags=["stats"])
+app.include_router(scorecards.router, prefix="/scorecards", tags=["scorecards"])
 
 @app.get("/")
 def read_root():

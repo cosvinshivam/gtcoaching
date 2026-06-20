@@ -18,7 +18,7 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
   const fetchContent = async () => {
     try {
       setIsLoading(true);
-      const res = await axios.get(`${API_URL}/api/content/`);
+      const res = await axios.get(`${API_URL}/content/`);
       const contentMap: Record<string, string> = {};
       res.data.forEach((item: { section_key: string; content_value: string }) => {
         contentMap[item.section_key] = item.content_value;

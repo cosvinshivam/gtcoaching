@@ -50,7 +50,7 @@ def submit_scorecard(scorecard_in: schemas.ScorecardCreate, db: Session = Depend
     
     return db_scorecard
 
-@router.get("/")
+@router.get("")
 def get_scorecards(
     page: int = 1,
     limit: int = 10,

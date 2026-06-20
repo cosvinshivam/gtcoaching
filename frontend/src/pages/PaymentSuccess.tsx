@@ -18,7 +18,7 @@ const PaymentSuccess = () => {
       const purchaseId = searchParams.get('purchase_id');
       if (purchaseId && token) {
         try {
-          await axios.post(`${API_URL}/api/payments/confirm/${purchaseId}`, {}, {
+          await axios.post(`${API_URL}/payments/confirm/${purchaseId}`, {}, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setStatus('Payment Successful!');

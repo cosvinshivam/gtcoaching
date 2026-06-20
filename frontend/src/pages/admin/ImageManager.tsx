@@ -12,7 +12,7 @@ const ImageManager = () => {
   const fetchImages = async () => {
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await axios.get(`${API_URL}/api/images/list`, {
+      const res = await axios.get(`${API_URL}/images/list`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setImages(res.data);
@@ -33,7 +33,7 @@ const ImageManager = () => {
 
     try {
       const token = localStorage.getItem('admin_token');
-      await axios.post(`${API_URL}/api/images/upload`, formData, {
+      await axios.post(`${API_URL}/images/upload`, formData, {
         headers: { 
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -54,7 +54,7 @@ const ImageManager = () => {
     if (!window.confirm('Are you sure you want to delete this image?')) return;
     try {
       const token = localStorage.getItem('admin_token');
-      await axios.delete(`${API_URL}/api/images/${filename}`, {
+      await axios.delete(`${API_URL}/images/${filename}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchImages();

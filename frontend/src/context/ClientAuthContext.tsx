@@ -30,7 +30,7 @@ export const ClientAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const fetchUser = async (authToken: string) => {
     try {
-      const res = await axios.get(`${API_URL}/api/auth/me`, {
+      const res = await axios.get(`${API_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${authToken}` }
       });
       setUser(res.data);
