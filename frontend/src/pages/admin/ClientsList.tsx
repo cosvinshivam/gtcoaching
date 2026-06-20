@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { Users, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { Users, ChevronLeft, ChevronRight, Edit2, X, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 interface Client {
@@ -22,15 +22,33 @@ const ClientsList = () => {
   const [total, setTotal] = useState(0);
   const limit = 10;
 
+  const [editingClient, setEditingClient] = useState<Client | null>(null);
+  const [editName, setEditName] = useState('');
+  const [editEmail, setEditEmail] = useState('');
+  const [editPhone, setEditPhone] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  const [search, setSearch] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
   useEffect(() => {
-    fetchClients(page);
-  }, [page]);
+    const delayDebounceFn = setTimeout(() => {
+      fetchClients(page);
+    }, 300);
+    return () => clearTimeout(delayDebounceFn);
+  }, [page, search, startDate, endDate]);
 
   const fetchClients = async (p: number) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await axios.get(`http://localhost:8000/api/auth/clients?page=${p}&limit=${limit}`, {
+      let url = `http://localhost:8000/api/auth/clients?page=${p}&limit=${limit}`;
+      if (search) url += `&search=${search}`;
+      if (startDate) url += `&start_date=${startDate}`;
+      if (endDate) url += `&end_date=${endDate}`;
+
+      const res = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setClients(res.data.clients);
@@ -43,15 +61,79 @@ const ClientsList = () => {
     }
   };
 
+  const handleEdit = (client: Client) => {
+    setEditingClient(client);
+    setEditName(client.full_name || '');
+    setEditEmail(client.email || '');
+    setEditPhone(client.phone || '');
+  };
+
+  const saveEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingClient) return;
+    setSaving(true);
+    try {
+      const token = localStorage.getItem('admin_token');
+      await axios.put(`http://localhost:8000/api/auth/clients/${editingClient.id}`, {
+        full_name: editName,
+        email: editEmail,
+        phone: editPhone
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      toast.success('Client updated successfully');
+      setEditingClient(null);
+      fetchClients(page);
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.response?.data?.detail || 'Failed to update client');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const totalPages = Math.ceil(total / limit) || 1;
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
         <h1 className="admin-page-title" style={{ marginBottom: 0 }}>Clients</h1>
-        <div style={{ background: '#f1f5f9', padding: '0.5rem 1rem', borderRadius: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#64748b' }}>
-          <Users size={20} />
-          <span style={{ fontWeight: 600 }}>{total} Total Clients</span>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div style={{ position: 'relative' }}>
+            <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+            <input 
+              type="text" 
+              placeholder="Search by name, email, phone or date..." 
+              className="admin-input"
+              style={{ marginBottom: 0, paddingLeft: '2.5rem', width: '300px', borderRadius: '2rem' }}
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+            />
+          </div>
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            <input 
+              type="date"
+              className="admin-input"
+              style={{ marginBottom: 0, padding: '0.5rem 1rem', width: 'auto', borderRadius: '2rem' }}
+              value={startDate}
+              onChange={(e) => { setStartDate(e.target.value); setPage(1); }}
+            />
+            <span style={{ color: '#94a3b8' }}>-</span>
+            <input 
+              type="date"
+              className="admin-input"
+              style={{ marginBottom: 0, padding: '0.5rem 1rem', width: 'auto', borderRadius: '2rem' }}
+              value={endDate}
+              onChange={(e) => { setEndDate(e.target.value); setPage(1); }}
+            />
+          </div>
+          <div style={{ background: '#f1f5f9', padding: '0.5rem 1rem', borderRadius: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#64748b' }}>
+            <Users size={20} />
+            <span style={{ fontWeight: 600 }}>{total} Total Clients</span>
+          </div>
         </div>
       </div>
 
@@ -64,6 +146,7 @@ const ClientsList = () => {
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600, color: '#475569', fontSize: '0.9rem' }}>Email / Phone</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600, color: '#475569', fontSize: '0.9rem' }}>Active Plan</th>
                 <th style={{ padding: '1rem 1.5rem', fontWeight: 600, color: '#475569', fontSize: '0.9rem' }}>Payment Status</th>
+                <th style={{ padding: '1rem 1.5rem', fontWeight: 600, color: '#475569', fontSize: '0.9rem' }}></th>
               </tr>
             </thead>
             <tbody>
@@ -111,6 +194,11 @@ const ClientsList = () => {
                         )}
                       </div>
                     </td>
+                    <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
+                      <button onClick={() => handleEdit(client)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b' }}>
+                        <Edit2 size={16} />
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}
@@ -146,6 +234,61 @@ const ClientsList = () => {
           </div>
         )}
       </div>
+
+      {/* EDIT MODAL */}
+      {editingClient && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            style={{ background: 'white', padding: '2rem', borderRadius: '1rem', width: '100%', maxWidth: '400px' }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+              <h3 style={{ margin: 0, color: 'var(--color-black)' }}>Edit Client</h3>
+              <button onClick={() => setEditingClient(null)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#64748b' }}>
+                <X size={20} />
+              </button>
+            </div>
+            <form onSubmit={saveEdit}>
+              <div style={{ marginBottom: '1rem' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.25rem' }}>Full Name</label>
+                <input 
+                  type="text" 
+                  className="admin-input" 
+                  style={{ marginBottom: 0 }}
+                  value={editName} 
+                  onChange={e => setEditName(e.target.value)} 
+                  required 
+                />
+              </div>
+              <div style={{ marginBottom: '1rem' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.25rem' }}>Email</label>
+                <input 
+                  type="email" 
+                  className="admin-input" 
+                  style={{ marginBottom: 0 }}
+                  value={editEmail} 
+                  onChange={e => setEditEmail(e.target.value)} 
+                  required 
+                />
+              </div>
+              <div style={{ marginBottom: '2rem' }}>
+                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.25rem' }}>Phone</label>
+                <input 
+                  type="text" 
+                  className="admin-input" 
+                  style={{ marginBottom: 0 }}
+                  value={editPhone} 
+                  onChange={e => setEditPhone(e.target.value)} 
+                />
+              </div>
+              <button type="submit" className="admin-btn" style={{ width: '100%' }} disabled={saving}>
+                {saving ? 'Saving...' : 'Save Changes'}
+              </button>
+            </form>
+          </motion.div>
+        </div>
+      )}
     </motion.div>
   );
 };

@@ -79,7 +79,7 @@ def issue_payment_link(
         "message": payment_req.description,
         "success_url": f"http://localhost:5173/payment/success?purchase_id={new_purchase.id}", # Pass purchase_id
         "cancel_url": "http://localhost:5173/payment/cancel",
-        "test": True # Set to False when deploying to production
+        "test": False # Set to False when deploying to production
     }
 
     try:

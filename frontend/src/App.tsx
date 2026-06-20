@@ -13,6 +13,9 @@ import TeamMember from './pages/TeamMember';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsConditions from './pages/TermsConditions';
+import PaymentPolicy from './pages/PaymentPolicy';
 
 import ScrollToTop from './components/ScrollToTop';
 
@@ -91,6 +94,9 @@ function App() {
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/payment/success" element={<PaymentSuccess />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/terms-conditions" element={<TermsConditions />} />
+                <Route path="/payment-policy" element={<PaymentPolicy />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

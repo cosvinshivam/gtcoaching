@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from datetime import timedelta
+from sqlalchemy import cast, String, func
+from datetime import timedelta, datetime
 import models, schemas, auth_utils
 from database import get_db
 from jose import JWTError, jwt
@@ -97,15 +98,42 @@ def update_profile(profile_data: schemas.UserUpdate, current_user: models.User =
 def get_clients(
     page: int = 1,
     limit: int = 10,
+    search: str = None,
+    start_date: str = None,
+    end_date: str = None,
     current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Not authorized")
     
-    offset = (page - 1) * limit
-    total = db.query(models.User).filter(models.User.is_admin == False).count()
-    clients = db.query(models.User).filter(models.User.is_admin == False).order_by(models.User.id.desc()).offset(offset).limit(limit).all()
+    query = db.query(models.User).filter(models.User.is_admin == False)
+    
+    # Left join to ensure we can filter by purchase date
+    query = query.outerjoin(models.Purchase, models.User.id == models.Purchase.user_id)
+    
+    if search:
+        search_term = f"%{search}%"
+        query = query.filter(
+            (models.User.email.ilike(search_term)) |
+            (models.User.phone.ilike(search_term)) |
+            (models.User.full_name.ilike(search_term)) |
+            (models.User.username.ilike(search_term)) |
+            (cast(models.Purchase.purchased_at, String).ilike(search_term))
+        )
+        
+    if start_date:
+        # start_date is 'YYYY-MM-DD'
+        query = query.filter(func.date(models.Purchase.purchased_at) >= start_date)
+
+    if end_date:
+        # end_date is 'YYYY-MM-DD'
+        query = query.filter(func.date(models.Purchase.purchased_at) <= end_date)
+            
+    query = query.distinct()
+
+    total = query.count()
+    clients = query.order_by(models.User.id.desc()).offset((page - 1) * limit).limit(limit).all()
     
     client_list = []
     for client in clients:
@@ -130,3 +158,33 @@ def get_clients(
         "clients": client_list
     }
 
+@router.put("/clients/{client_id}", response_model=schemas.UserResponse)
+def update_client_profile(
+    client_id: int,
+    profile_data: schemas.UserUpdate,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Not authorized")
+        
+    client = db.query(models.User).filter(models.User.id == client_id).first()
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+
+    if profile_data.username is not None and profile_data.username != client.username:
+        existing_user = db.query(models.User).filter(models.User.username == profile_data.username).first()
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Username already taken")
+        client.username = profile_data.username
+
+    if profile_data.full_name is not None:
+        client.full_name = profile_data.full_name
+    if profile_data.email is not None:
+        client.email = profile_data.email
+    if profile_data.phone is not None:
+        client.phone = profile_data.phone
+        
+    db.commit()
+    db.refresh(client)
+    return client
