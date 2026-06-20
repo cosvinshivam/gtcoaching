@@ -6,16 +6,22 @@ import '../../styles/admin.css';
 const AdminLayout = () => {
   const navigate = useNavigate();
 
+  const token = localStorage.getItem('admin_token');
+
   React.useEffect(() => {
-    if (!localStorage.getItem('admin_token')) {
-      navigate('/admin/login');
+    if (!token) {
+      navigate('/admin/login', { replace: true });
     }
-  }, [navigate]);
+  }, [navigate, token]);
 
   const handleLogout = () => {
     localStorage.removeItem('admin_token');
     navigate('/admin/login');
   };
+
+  if (!token) {
+    return null;
+  }
 
   return (
     <div className="admin-layout">
