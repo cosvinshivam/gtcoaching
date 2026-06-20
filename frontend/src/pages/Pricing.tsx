@@ -71,7 +71,7 @@ const Pricing = () => {
     setLoadingPlan(plan.name);
     try {
       const amount = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
-      const res = await axios.post(`${API_URL}/payments/issue-link`, {
+      const res = await axios.post(`${API_URL}/api/payments/issue-link`, {
         amount: amount,
         currency: 'AED',
         description: `GTCoaching - ${plan.name} (${isYearly ? 'Yearly' : 'Monthly'})`,

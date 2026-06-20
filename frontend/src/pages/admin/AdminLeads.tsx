@@ -21,7 +21,7 @@ const AdminLeads = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await axios.get(`${API_URL}/scorecards?page=${p}&limit=${limit}`, {
+      const res = await axios.get(`${API_URL}/api/scorecards?page=${p}&limit=${limit}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setLeads(res.data.leads);

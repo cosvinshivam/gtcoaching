@@ -29,7 +29,7 @@ const ProfileSettings = () => {
     e.preventDefault();
     setStatus('Saving...');
     try {
-      await axios.put(`${API_URL}/auth/profile`, formData, {
+      await axios.put(`${API_URL}/api/auth/profile`, formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       await refreshUser();

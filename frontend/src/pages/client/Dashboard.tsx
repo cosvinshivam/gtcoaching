@@ -12,7 +12,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPurchases = async () => {
       try {
-        const res = await axios.get(`${API_URL}/payments/my-purchases`, {
+        const res = await axios.get(`${API_URL}/api/payments/my-purchases`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setPurchases(res.data);

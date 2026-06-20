@@ -21,7 +21,7 @@ const AdminProfile = () => {
         const token = localStorage.getItem('admin_token');
         if (!token) return;
 
-        const res = await axios.get(`${API_URL}/auth/me`, {
+        const res = await axios.get(`${API_URL}/api/auth/me`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -52,7 +52,7 @@ const AdminProfile = () => {
         payload.password = password;
       }
 
-      await axios.put(`${API_URL}/auth/profile`, payload, {
+      await axios.put(`${API_URL}/api/auth/profile`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
       

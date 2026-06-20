@@ -38,7 +38,7 @@ const PaymentManager = () => {
         client_phone: clientPhone || null
       };
 
-      const res = await axios.post(`${API_URL}/payments/issue-link`, 
+      const res = await axios.post(`${API_URL}/api/payments/issue-link`, 
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );

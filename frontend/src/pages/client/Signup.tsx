@@ -14,7 +14,7 @@ const Signup = () => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_URL}/auth/signup`, formData);
+      await axios.post(`${API_URL}/api/auth/signup`, formData);
       // Auto login or redirect to login
       navigate('/login');
     } catch (err: any) {

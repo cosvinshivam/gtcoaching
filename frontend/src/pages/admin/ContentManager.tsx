@@ -125,7 +125,7 @@ const ContentManager = () => {
   const fetchImages = async () => {
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await axios.get(`${API_URL}/images/list`, {
+      const res = await axios.get(`${API_URL}/api/images/list`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setImages(res.data);
@@ -136,7 +136,7 @@ const ContentManager = () => {
 
   const fetchContent = async () => {
     try {
-      const res = await axios.get(`${API_URL}/content/`);
+      const res = await axios.get(`${API_URL}/api/content/`);
       
       // Merge DB contents with knownKeys (show empty string for keys not in DB)
       const dbKeys = res.data.map((item: any) => item.section_key);
@@ -162,7 +162,7 @@ const ContentManager = () => {
   const handleSave = async (section_key: string, content_value: string) => {
     try {
       const token = localStorage.getItem('admin_token');
-      await axios.post(`${API_URL}/content/`, 
+      await axios.post(`${API_URL}/api/content/`, 
         { section_key, content_value },
         { headers: { Authorization: `Bearer ${token}` } }
       );
