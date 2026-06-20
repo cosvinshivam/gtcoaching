@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useClientAuth } from '../../context/ClientAuthContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 const Dashboard = () => {
   const { user, token } = useClientAuth();
@@ -11,7 +12,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPurchases = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/api/payments/my-purchases', {
+        const res = await axios.get(`${API_URL}/payments/my-purchases`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setPurchases(res.data);

@@ -13,7 +13,7 @@ app = FastAPI(title="GTCoaching API")
 # Configure CORS for React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # For production, restrict to frontend domain
+    allow_origins=["http://localhost:5173", "https://gt-coaching.com"], # For production, restrict to frontend domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

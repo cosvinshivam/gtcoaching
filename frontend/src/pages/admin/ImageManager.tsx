@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { UploadCloud, Trash2, Copy } from 'lucide-react';
+import { API_URL } from '../../config';
 
 const ImageManager = () => {
   const [images, setImages] = useState<any[]>([]);
@@ -11,7 +12,7 @@ const ImageManager = () => {
   const fetchImages = async () => {
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await axios.get('http://localhost:8000/api/images/list', {
+      const res = await axios.get(`${API_URL}/images/list`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setImages(res.data);
@@ -32,7 +33,7 @@ const ImageManager = () => {
 
     try {
       const token = localStorage.getItem('admin_token');
-      await axios.post('http://localhost:8000/api/images/upload', formData, {
+      await axios.post(`${API_URL}/images/upload`, formData, {
         headers: { 
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -53,7 +54,7 @@ const ImageManager = () => {
     if (!window.confirm('Are you sure you want to delete this image?')) return;
     try {
       const token = localStorage.getItem('admin_token');
-      await axios.delete(`http://localhost:8000/api/images/${filename}`, {
+      await axios.delete(`${API_URL}/images/${filename}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchImages();

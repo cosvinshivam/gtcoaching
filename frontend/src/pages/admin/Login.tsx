@@ -4,6 +4,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Lock, Eye, EyeOff } from 'lucide-react';
 import '../../styles/admin.css';
+import { API_URL } from '../../config';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -20,7 +21,7 @@ const Login = () => {
       formData.append('username', username);
       formData.append('password', password);
 
-      const response = await axios.post('http://localhost:8000/api/auth/login', formData);
+      const response = await axios.post(`${API_URL}/auth/login`, formData);
       localStorage.setItem('admin_token', response.data.access_token);
       navigate('/admin');
     } catch (err) {

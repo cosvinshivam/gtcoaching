@@ -6,6 +6,7 @@ import {
   BarChart, Bar, Legend
 } from 'recharts';
 import { FileText, Image as ImageIcon, CreditCard, DollarSign, Users } from 'lucide-react';
+import { API_URL } from '../../config';
 
 const Dashboard = () => {
   const [stats, setStats] = useState<any>(null);
@@ -15,7 +16,7 @@ const Dashboard = () => {
     const fetchStats = async () => {
       try {
         const token = localStorage.getItem('admin_token');
-        const res = await axios.get('http://localhost:8000/api/stats', {
+        const res = await axios.get(`${API_URL}/stats`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setStats(res.data);

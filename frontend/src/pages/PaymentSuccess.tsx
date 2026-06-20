@@ -5,6 +5,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { useClientAuth } from '../context/ClientAuthContext';
 import './PaymentSuccess.css';
+import { API_URL } from '../config';
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
@@ -17,7 +18,7 @@ const PaymentSuccess = () => {
       const purchaseId = searchParams.get('purchase_id');
       if (purchaseId && token) {
         try {
-          await axios.post(`http://localhost:8000/api/payments/confirm/${purchaseId}`, {}, {
+          await axios.post(`${API_URL}/payments/confirm/${purchaseId}`, {}, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setStatus('Payment Successful!');

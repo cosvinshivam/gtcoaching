@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Users, FileText, X, Phone, Mail, ChevronLeft, ChevronRight } from 'lucide-react';
+import { API_URL } from '../../config';
 
 const AdminLeads = () => {
   const [leads, setLeads] = useState<any[]>([]);
@@ -20,7 +21,7 @@ const AdminLeads = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await axios.get(`http://localhost:8000/api/scorecards?page=${p}&limit=${limit}`, {
+      const res = await axios.get(`${API_URL}/scorecards?page=${p}&limit=${limit}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setLeads(res.data.leads);

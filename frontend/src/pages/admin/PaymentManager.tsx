@@ -3,6 +3,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Link, Copy } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { API_URL } from '../../config';
 
 const PLAN_OPTIONS = [
   "Gym",
@@ -37,7 +38,7 @@ const PaymentManager = () => {
         client_phone: clientPhone || null
       };
 
-      const res = await axios.post('http://localhost:8000/api/payments/issue-link', 
+      const res = await axios.post(`${API_URL}/payments/issue-link`, 
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );

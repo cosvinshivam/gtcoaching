@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { User, Save, Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../config';
 
 const AdminProfile = () => {
   const [username, setUsername] = useState('');
@@ -20,7 +21,7 @@ const AdminProfile = () => {
         const token = localStorage.getItem('admin_token');
         if (!token) return;
 
-        const res = await axios.get('http://localhost:8000/api/auth/me', {
+        const res = await axios.get(`${API_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -51,7 +52,7 @@ const AdminProfile = () => {
         payload.password = password;
       }
 
-      await axios.put('http://localhost:8000/api/auth/profile', payload, {
+      await axios.put(`${API_URL}/auth/profile`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
       

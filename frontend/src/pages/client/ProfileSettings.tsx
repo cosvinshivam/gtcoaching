@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useClientAuth } from '../../context/ClientAuthContext';
 import axios from 'axios';
+import { API_URL } from '../../config';
 
 const ProfileSettings = () => {
   const { user, token, refreshUser } = useClientAuth();
@@ -28,7 +29,7 @@ const ProfileSettings = () => {
     e.preventDefault();
     setStatus('Saving...');
     try {
-      await axios.put('http://localhost:8000/api/auth/profile', formData, {
+      await axios.put(`${API_URL}/auth/profile`, formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       await refreshUser();

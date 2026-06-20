@@ -3,6 +3,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Users, ChevronLeft, ChevronRight, Edit2, X, Search } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { API_URL } from '../../config';
 
 interface Client {
   id: number;
@@ -43,7 +44,7 @@ const ClientsList = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('admin_token');
-      let url = `http://localhost:8000/api/auth/clients?page=${p}&limit=${limit}`;
+      let url = `${API_URL}/auth/clients?page=${p}&limit=${limit}`;
       if (search) url += `&search=${search}`;
       if (startDate) url += `&start_date=${startDate}`;
       if (endDate) url += `&end_date=${endDate}`;
@@ -74,7 +75,7 @@ const ClientsList = () => {
     setSaving(true);
     try {
       const token = localStorage.getItem('admin_token');
-      await axios.put(`http://localhost:8000/api/auth/clients/${editingClient.id}`, {
+      await axios.put(`${API_URL}/auth/clients/${editingClient.id}`, {
         full_name: editName,
         email: editEmail,
         phone: editPhone

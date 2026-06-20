@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Save, Plus } from 'lucide-react';
+import { API_URL } from '../../config';
 
 const categories: Record<string, string[]> = {
   "Home / Hero": ['hero_title', 'hero_subtitle', 'hero_btn_text', 'hero_review_text', 'hero_main_img', 'hero_split_img_1', 'hero_split_img_2'],
@@ -124,7 +125,7 @@ const ContentManager = () => {
   const fetchImages = async () => {
     try {
       const token = localStorage.getItem('admin_token');
-      const res = await axios.get('http://localhost:8000/api/images/list', {
+      const res = await axios.get(`${API_URL}/images/list`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setImages(res.data);
@@ -135,7 +136,7 @@ const ContentManager = () => {
 
   const fetchContent = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/api/content/');
+      const res = await axios.get(`${API_URL}/content/`);
       
       // Merge DB contents with knownKeys (show empty string for keys not in DB)
       const dbKeys = res.data.map((item: any) => item.section_key);
@@ -161,7 +162,7 @@ const ContentManager = () => {
   const handleSave = async (section_key: string, content_value: string) => {
     try {
       const token = localStorage.getItem('admin_token');
-      await axios.post('http://localhost:8000/api/content/', 
+      await axios.post(`${API_URL}/content/`, 
         { section_key, content_value },
         { headers: { Authorization: `Bearer ${token}` } }
       );

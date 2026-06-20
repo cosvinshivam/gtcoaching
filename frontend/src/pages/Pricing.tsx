@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useSiteContent } from '../context/SiteContentContext';
 import { useClientAuth } from '../context/ClientAuthContext';
 import './Pricing.css';
+import { API_URL } from '../config';
 
 const defaultPlans = [
   {
@@ -70,7 +71,7 @@ const Pricing = () => {
     setLoadingPlan(plan.name);
     try {
       const amount = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
-      const res = await axios.post('http://localhost:8000/api/payments/issue-link', {
+      const res = await axios.post(`${API_URL}/payments/issue-link`, {
         amount: amount,
         currency: 'AED',
         description: `GTCoaching - ${plan.name} (${isYearly ? 'Yearly' : 'Monthly'})`,

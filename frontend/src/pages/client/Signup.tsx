@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react';
+import { API_URL } from '../../config';
 
 const Signup = () => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '', full_name: '' });
@@ -13,7 +14,7 @@ const Signup = () => {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8000/api/auth/signup', formData);
+      await axios.post(`${API_URL}/auth/signup`, formData);
       // Auto login or redirect to login
       navigate('/login');
     } catch (err: any) {

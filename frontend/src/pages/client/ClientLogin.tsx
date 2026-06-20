@@ -4,6 +4,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react';
 import { useClientAuth } from '../../context/ClientAuthContext';
+import { API_URL } from '../../config';
 
 const ClientLogin = () => {
   const [username, setUsername] = useState('');
@@ -20,7 +21,7 @@ const ClientLogin = () => {
       formData.append('username', username);
       formData.append('password', password);
       
-      const res = await axios.post('http://localhost:8000/api/auth/login', formData, {
+      const res = await axios.post(`${API_URL}/auth/login`, formData, {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
       });
       
