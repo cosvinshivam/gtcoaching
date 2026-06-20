@@ -14,6 +14,7 @@ router = APIRouter()
 
 ZIINA_API_KEY = os.getenv("ZIINA_API_KEY")
 ZIINA_API_URL = os.getenv("ZIINA_API_URL", "https://api-v2.ziina.com/api")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 @router.post("/issue-link")
 def issue_payment_link(
@@ -77,8 +78,8 @@ def issue_payment_link(
         "amount": int(payment_req.amount * 100), # Amount in fils (100 AED = 10000 fils)
         "currency_code": payment_req.currency,
         "message": payment_req.description,
-        "success_url": f"http://localhost:5173/payment/success?purchase_id={new_purchase.id}", # Pass purchase_id
-        "cancel_url": "http://localhost:5173/payment/cancel",
+        "success_url": f"{FRONTEND_URL}/payment/success?purchase_id={new_purchase.id}", # Pass purchase_id
+        "cancel_url": f"{FRONTEND_URL}/payment/cancel",
         "test": False # Set to False when deploying to production
     }
 
